@@ -1,11 +1,4 @@
 com\itson\lasercombdconexion\LasercomBDConexion.class
-conexion\ControladoraPersistencia.class
-DAO\ActividadDAO.class
 dominio\Actividad.class
 dominio\EstadoActividad.class
 dominio\Cliente.class
-interfaces\IActividadDAO.class
-interfaces\IClienteDAO.class
-conexion\Conexion.class
-excepciones\PersistenciaExcepciones.class
-DAO\ClienteDAO.class
