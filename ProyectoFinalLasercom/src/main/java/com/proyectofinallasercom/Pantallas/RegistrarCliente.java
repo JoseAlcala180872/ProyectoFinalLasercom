@@ -4,17 +4,27 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import bo.ClienteBO;
+import dao.ClienteDAO;
+import dominio.Cliente;
+import excepciones.BOException;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author montoya
  */
 public class RegistrarCliente extends javax.swing.JFrame {
 
+    private final ClienteBO clienteBO;
+
     /**
      * Creates new form RegistrarCliente
      */
     public RegistrarCliente() {
         initComponents();
+        clienteBO = new ClienteBO(new ClienteDAO());
     }
 
     /**
@@ -66,10 +76,20 @@ public class RegistrarCliente extends javax.swing.JFrame {
         lblDireccion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
         txtDireccion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDireccionKeyTyped(evt);
+            }
+        });
 
         txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
@@ -83,6 +103,11 @@ public class RegistrarCliente extends javax.swing.JFrame {
 
         btnGuardar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,12 +158,9 @@ public class RegistrarCliente extends javax.swing.JFrame {
                     .addComponent(lblDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -146,8 +168,43 @@ public class RegistrarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        new AdministrarCliente().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isLetter(c) && c != ' ' && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtDireccionKeyTyped
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        Cliente cliente = new Cliente(
+                txtNombre.getText(),
+                txtCorreo.getText(),
+                txtTelefono.getText(),
+                txtDireccion.getText()
+        );
+
+        try {
+            clienteBO.registrarCliente(cliente);
+            JOptionPane.showMessageDialog(this, "Cliente registrado con éxito");
+            new AdministrarCliente().setVisible(true);
+            dispose();
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments

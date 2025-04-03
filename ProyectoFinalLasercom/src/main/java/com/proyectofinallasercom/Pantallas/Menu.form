@@ -80,6 +80,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;Administrar&lt;br&gt;Actividad&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarActividadActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAdministrarCliente">
       <Properties>
@@ -88,6 +91,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;Administrar&lt;br&gt;Cliente&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarClienteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnMostrarEstadisticas">
       <Properties>

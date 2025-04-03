@@ -4,17 +4,38 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import bo.ActividadBO;
+import dao.ActividadDAO;
+import dominio.Actividad;
+import excepciones.BOException;
+import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Choche
  */
 public class EditarActividad extends javax.swing.JFrame {
 
+    private Actividad actividad
+
     /**
      * Creates new form EditarActividad
      */
-    public EditarActividad() {
+    public EditarActividad(Actividad actividad) {
         initComponents();
+        this.actividad = actividad;
+        llenarCampos();
+    }
+
+    private void llenarCampos() {
+        txtCliente.setText(actividad.getCliente().getNombre());
+        txtTitulo.setText(actividad.getTitulo());
+        txtDescripcion.setText(actividad.getDescripcion());
+        txtDia.setText(String.valueOf(actividad.getFechaTermino().getDayOfMonth()));
+        txtMes.setText(String.valueOf(actividad.getFechaTermino().getMonthValue()));
+        txtAnho.setText(String.valueOf(actividad.getFechaTermino().getYear()));
     }
 
     /**
@@ -33,7 +54,11 @@ public class EditarActividad extends javax.swing.JFrame {
         lblDescripcion = new javax.swing.JLabel();
         txtCliente = new javax.swing.JTextField();
         txtTitulo = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
+        txtDia = new javax.swing.JTextField();
+        lblDiagonal = new javax.swing.JLabel();
+        txtMes = new javax.swing.JTextField();
+        lblDiagonal1 = new javax.swing.JLabel();
+        txtAnho = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
         btnVolver = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
@@ -65,15 +90,52 @@ public class EditarActividad extends javax.swing.JFrame {
 
         txtTitulo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
-        txtFecha.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDiaKeyTyped(evt);
+            }
+        });
+
+        lblDiagonal.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblDiagonal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDiagonal.setText("/");
+
+        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtMes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMesKeyTyped(evt);
+            }
+        });
+
+        lblDiagonal1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblDiagonal1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDiagonal1.setText("/");
+
+        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtAnho.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAnhoKeyTyped(evt);
+            }
+        });
 
         txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         btnAceptar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,8 +156,17 @@ public class EditarActividad extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCliente)
                             .addComponent(txtTitulo)
-                            .addComponent(txtFecha)
-                            .addComponent(txtDescripcion)))
+                            .addComponent(txtDescripcion)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDiagonal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDiagonal1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtAnho, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
@@ -119,7 +190,11 @@ public class EditarActividad extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAnho, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDiagonal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDiagonal1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,54 +207,123 @@ public class EditarActividad extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        new AdministrarActividad().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditarActividad().setVisible(true);
-            }
-        });
-    }
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        String titulo = txtTitulo.getText();
+        String descripcion = txtDescripcion.getText();
+        String diaStr = txtDia.getText();
+        String mesStr = txtMes.getText();
+        String anhoStr = txtAnho.getText();
+
+        if (titulo.trim().isEmpty() || diaStr.trim().isEmpty() || mesStr.trim().isEmpty() || anhoStr.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int dia = Integer.parseInt(diaStr);
+            int mes = Integer.parseInt(mesStr);
+            int anho = Integer.parseInt(anhoStr);
+            LocalDate fechaTermino = LocalDate.of(anho, mes, dia);
+
+            actividad.setTitulo(titulo);
+            actividad.setDescripcion(descripcion);
+            actividad.setFechaTermino(fechaTermino);
+
+            ActividadBO actividadBO = new ActividadBO(new ActividadDAO());
+            actividadBO.actualizarActividad(actividad);
+
+            JOptionPane.showMessageDialog(this, "Actividad actualizada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            new AdministrarActividad().setVisible(true);
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido (dd/mm/aaaa).", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar actividad: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtDiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiaKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtDiaKeyTyped
+
+    private void txtMesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMesKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtMesKeyTyped
+
+    private void txtAnhoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnhoKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtAnhoKeyTyped
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(EditarActividad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new EditarActividad().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblDiagonal;
+    private javax.swing.JLabel lblDiagonal1;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloActividad;
+    private javax.swing.JTextField txtAnho;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtDia;
+    private javax.swing.JTextField txtMes;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

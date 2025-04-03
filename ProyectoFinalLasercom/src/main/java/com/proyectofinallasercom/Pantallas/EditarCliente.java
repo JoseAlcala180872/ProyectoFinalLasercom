@@ -4,17 +4,30 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import bo.ClienteBO;
+import dao.ClienteDAO;
+import dominio.Cliente;
+import excepciones.BOException;
+import java.awt.event.KeyEvent;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author montoya
  */
 public class EditarCliente extends javax.swing.JFrame {
 
+    private final ClienteBO clienteBO;
+    private List<Cliente> listaClientes;
+
     /**
      * Creates new form RegistrarCliente
      */
     public EditarCliente() {
         initComponents();
+        clienteBO = new ClienteBO(new ClienteDAO());
+        cargarClientes();
     }
 
     /**
@@ -68,17 +81,27 @@ public class EditarCliente extends javax.swing.JFrame {
 
         cboxListaClientes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         cboxListaClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar Cliente...", "Cliente 1", "Cliente 2", "Cliente 3", "Cliente 4", "Cliente 5" }));
+        cboxListaClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxListaClientesActionPerformed(evt);
+            }
+        });
 
         txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
             }
         });
 
         txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
         txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
 
         txtDireccion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
@@ -92,6 +115,11 @@ public class EditarCliente extends javax.swing.JFrame {
 
         btnGuardar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,12 +187,51 @@ public class EditarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        new AdministrarCliente().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int selectedIndex = cboxListaClientes.getSelectedIndex() - 1; // Ajuste por "Seleccionar Cliente..."
+        if (selectedIndex >= 0 && selectedIndex < listaClientes.size()) {
+            Cliente cliente = listaClientes.get(selectedIndex);
+            cliente.setNombre(txtNombre.getText());
+            cliente.setCorreo(txtCorreo.getText());
+            cliente.setTelefono(txtTelefono.getText());
+            cliente.setDireccion(txtDireccion.getText());
+
+            try {
+                clienteBO.actualizarCliente(cliente);
+                JOptionPane.showMessageDialog(this, "Cliente actualizado con éxito");
+                new AdministrarCliente().setVisible(true);
+                dispose();
+            } catch (BOException e) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente para actualizar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isLetter(c) && c != ' ' && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void cboxListaClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxListaClientesActionPerformed
+        cargarDatosCliente();
+    }//GEN-LAST:event_cboxListaClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,4 +284,33 @@ public class EditarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarClientes() {
+        try {
+            listaClientes = clienteBO.listarTodosLosClientes();
+            cboxListaClientes.removeAllItems();
+            cboxListaClientes.addItem("Seleccionar Cliente...");
+            for (Cliente cliente : listaClientes) {
+                cboxListaClientes.addItem(cliente.getNombre());
+            }
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void cargarDatosCliente() {
+        int selectedIndex = cboxListaClientes.getSelectedIndex() - 1; // Ajuste por "Seleccionar Cliente..."
+        if (selectedIndex >= 0 && selectedIndex < listaClientes.size()) {
+            Cliente cliente = listaClientes.get(selectedIndex);
+            txtNombre.setText(cliente.getNombre());
+            txtCorreo.setText(cliente.getCorreo());
+            txtTelefono.setText(cliente.getTelefono());
+            txtDireccion.setText(cliente.getDireccion());
+        } else {
+            txtNombre.setText("");
+            txtCorreo.setText("");
+            txtTelefono.setText("");
+            txtDireccion.setText("");
+        }
+    }
 }

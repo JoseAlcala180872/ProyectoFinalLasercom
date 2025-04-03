@@ -4,17 +4,37 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import dominio.Cliente;
+import dominio.Actividad;
+import bo.ActividadBO;
+import bo.ClienteBO;
+import dao.ActividadDAO;
+import dao.ClienteDAO;
+import excepciones.BOException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Choche
  */
 public class RegistrarActividad extends javax.swing.JFrame {
 
+    private final ActividadBO actividadBO;
+    private final ClienteBO clienteBO;
+    private List<Cliente> listaClientes;
+
     /**
      * Creates new form RegistrarActividad
      */
     public RegistrarActividad() {
         initComponents();
+        actividadBO = new ActividadBO(new ActividadDAO());
+        clienteBO = new ClienteBO(new ClienteDAO());
+        cargarClientes();
     }
 
     /**
@@ -34,9 +54,13 @@ public class RegistrarActividad extends javax.swing.JFrame {
         cboxListaClientes = new javax.swing.JComboBox<>();
         txtlblTitulo = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
         btnVolver = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        txtDia = new javax.swing.JTextField();
+        lblDiagonal = new javax.swing.JLabel();
+        txtMes = new javax.swing.JTextField();
+        lblDiagonal1 = new javax.swing.JLabel();
+        txtAnho = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,13 +91,50 @@ public class RegistrarActividad extends javax.swing.JFrame {
 
         txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
-        txtFecha.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDiaKeyTyped(evt);
+            }
+        });
+
+        lblDiagonal.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblDiagonal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDiagonal.setText("/");
+
+        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtMes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMesKeyTyped(evt);
+            }
+        });
+
+        lblDiagonal1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblDiagonal1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDiagonal1.setText("/");
+
+        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtAnho.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAnhoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,7 +158,17 @@ public class RegistrarActividad extends javax.swing.JFrame {
                             .addComponent(cboxListaClientes, 0, 454, Short.MAX_VALUE)
                             .addComponent(txtlblTitulo)
                             .addComponent(txtDescripcion)
-                            .addComponent(txtFecha)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDiagonal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDiagonal1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtAnho, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32))
         );
@@ -121,7 +192,12 @@ public class RegistrarActividad extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtAnho, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDiagonal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDiagonal1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,7 +206,90 @@ public class RegistrarActividad extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        new AdministrarActividad().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String clienteSeleccionado = (String) cboxListaClientes.getSelectedItem();
+        String titulo = txtlblTitulo.getText();
+        String descripcion = txtDescripcion.getText();
+        String diaStr = txtDia.getText();
+        String mesStr = txtMes.getText();
+        String anhoStr = txtAnho.getText();
+
+        if (clienteSeleccionado == null || clienteSeleccionado.equals("Seleccionar Cliente...")) {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (titulo.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El título es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (diaStr.trim().isEmpty() || mesStr.trim().isEmpty() || anhoStr.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La fecha es obligatoria.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int dia, mes, anho;
+        try {
+            dia = Integer.parseInt(diaStr);
+            mes = Integer.parseInt(mesStr);
+            anho = Integer.parseInt(anhoStr);
+            LocalDate.of(anho, mes, dia);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido (dd/mm/aaaa).", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        LocalDate fechaTermino = LocalDate.of(anho, mes, dia);
+
+        Cliente cliente = buscarClientePorNombre(clienteSeleccionado);
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Actividad actividad = new Actividad(cliente, titulo, descripcion, fechaTermino);
+
+        try {
+            actividadBO.registrarActividad(actividad);
+            JOptionPane.showMessageDialog(this, "Actividad registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            new AdministrarActividad().setVisible(true);
+            dispose();
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar actividad: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtDiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiaKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtDiaKeyTyped
+
+    private void txtMesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMesKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtMesKeyTyped
+
+    private void txtAnhoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnhoKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Ignorar caracteres no válidos
+        }
+    }//GEN-LAST:event_txtAnhoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -172,12 +331,40 @@ public class RegistrarActividad extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cboxListaClientes;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblDiagonal;
+    private javax.swing.JLabel lblDiagonal1;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblListaClientes;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloActividad;
+    private javax.swing.JTextField txtAnho;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtDia;
+    private javax.swing.JTextField txtMes;
     private javax.swing.JTextField txtlblTitulo;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarClientes() {
+        try {
+            listaClientes = clienteBO.listarTodosLosClientes();
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+            model.addElement("Seleccionar Cliente...");
+            for (Cliente cliente : listaClientes) {
+                model.addElement(cliente.getNombre());
+            }
+            cboxListaClientes.setModel(model);
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private Cliente buscarClientePorNombre(String nombre) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getNombre().equals(nombre)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
 }

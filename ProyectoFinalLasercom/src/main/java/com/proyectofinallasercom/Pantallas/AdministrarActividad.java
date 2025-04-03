@@ -28,6 +28,8 @@ public class AdministrarActividad extends javax.swing.JFrame {
 
         lblTitulo = new javax.swing.JLabel();
         pnlActividades = new javax.swing.JPanel();
+        btnActividadTerminada = new javax.swing.JButton();
+        btnEjemploActividad = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnRegistrarActividad = new javax.swing.JButton();
 
@@ -37,22 +39,61 @@ public class AdministrarActividad extends javax.swing.JFrame {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Administrar actividad");
 
+        btnActividadTerminada.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnActividadTerminada.setText("<html>Actividad<br>Terminada</html>");
+        btnActividadTerminada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActividadTerminadaActionPerformed(evt);
+            }
+        });
+
+        btnEjemploActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnEjemploActividad.setText("<html>Ejemplo<br>Actividad</html>");
+        btnEjemploActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjemploActividadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlActividadesLayout = new javax.swing.GroupLayout(pnlActividades);
         pnlActividades.setLayout(pnlActividadesLayout);
         pnlActividadesLayout.setHorizontalGroup(
             pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlActividadesLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(btnEjemploActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActividadTerminada, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
         pnlActividadesLayout.setVerticalGroup(
             pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGroup(pnlActividadesLayout.createSequentialGroup()
+                .addGroup(pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlActividadesLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(btnActividadTerminada, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlActividadesLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(btnEjemploActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         btnRegistrarActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnRegistrarActividad.setText("<html>Registrar<br>Actividad</html>");
+        btnRegistrarActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActividadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,7 +125,28 @@ public class AdministrarActividad extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        new Menu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnRegistrarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActividadActionPerformed
+        new RegistrarActividad().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnRegistrarActividadActionPerformed
+
+    private void btnActividadTerminadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActividadTerminadaActionPerformed
+        new ActividadTerminada().setVisible(true); // Aqui falta poner algo de parametro
+        dispose();
+    }//GEN-LAST:event_btnActividadTerminadaActionPerformed
+
+    private void btnEjemploActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemploActividadActionPerformed
+        new EditarActividad().setVisible(true); // Aqui falta poner algo de parametro
+        dispose();
+    }//GEN-LAST:event_btnEjemploActividadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,6 +184,8 @@ public class AdministrarActividad extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActividadTerminada;
+    private javax.swing.JButton btnEjemploActividad;
     private javax.swing.JButton btnRegistrarActividad;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel lblTitulo;

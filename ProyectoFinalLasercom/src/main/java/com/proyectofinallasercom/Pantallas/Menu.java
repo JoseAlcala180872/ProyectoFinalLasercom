@@ -40,9 +40,19 @@ public class Menu extends javax.swing.JFrame {
 
         btnAdministrarActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnAdministrarActividad.setText("<html>Administrar<br>Actividad</html>");
+        btnAdministrarActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarActividadActionPerformed(evt);
+            }
+        });
 
         btnAdministrarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnAdministrarCliente.setText("<html>Administrar<br>Cliente</html>");
+        btnAdministrarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarClienteActionPerformed(evt);
+            }
+        });
 
         btnMostrarEstadisticas.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnMostrarEstadisticas.setText("<html>Mostrar<br>Estadísticas</html>");
@@ -87,6 +97,16 @@ public class Menu extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAdministrarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarActividadActionPerformed
+        new AdministrarActividad().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnAdministrarActividadActionPerformed
+
+    private void btnAdministrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClienteActionPerformed
+        new AdministrarCliente().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnAdministrarClienteActionPerformed
 
     /**
      * @param args the command line arguments

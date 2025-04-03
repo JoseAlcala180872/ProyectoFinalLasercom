@@ -33,7 +33,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 600));
 
         lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -42,6 +41,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         btnRegistrarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnRegistrarCliente.setText("Registrar Cliente");
         btnRegistrarCliente.setToolTipText("");
+        btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarClienteActionPerformed(evt);
+            }
+        });
 
         btnEditarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnEditarCliente.setText("Editar Cliente");
@@ -56,6 +60,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,8 +107,19 @@ public class AdministrarCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        new Menu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
+        new RegistrarCliente().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnRegistrarClienteActionPerformed
+
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
-        // TODO add your handling code here:
+        new EditarCliente().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     /**

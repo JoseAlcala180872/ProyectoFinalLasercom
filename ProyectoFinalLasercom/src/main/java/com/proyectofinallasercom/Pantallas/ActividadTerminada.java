@@ -4,17 +4,28 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import bo.ActividadBO;
+import dao.ActividadDAO;
+import dominio.Actividad;
+import excepciones.BOException;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author montoya
  */
 public class ActividadTerminada extends javax.swing.JFrame {
 
+    private String cantidad = "";
+    private Actividad actividad;
+
     /**
      * Creates new form ActividadTerminada
      */
-    public ActividadTerminada() {
+    public ActividadTerminada(Actividad actividad) {
         initComponents();
+        this.actividad = actividad;
     }
 
     /**
@@ -42,9 +53,12 @@ public class ActividadTerminada extends javax.swing.JFrame {
         lblDescripcion.setText("Anada los ingresos generados por esta actividad");
 
         txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        txtCantidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCantidadActionPerformed(evt);
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
             }
         });
 
@@ -88,50 +102,84 @@ public class ActividadTerminada extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        try {
+            double monto = Double.parseDouble(txtCantidad.getText());
+            actividad.setMontoGenerado(monto);
+
+            ActividadBO actividadBO = new ActividadBO(new ActividadDAO());
+            actividadBO.actualizarActividad(actividad);
+
+            JOptionPane.showMessageDialog(this, "Monto guardado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            new AdministrarActividad().setVisible(true);
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Formato de monto inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar el monto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidadActionPerformed
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char c = evt.getKeyChar();
+        System.out.println(evt.getKeyChar());
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        if (Character.isDigit(c) || c == '.') {
+            if (valido(cantidad + c)) {
+                cantidad += c;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        txtCantidad.setText(cantidad);
+        evt.consume();
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ActividadTerminada().setVisible(true);
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (cantidad.length() > 0) {
+                cantidad = cantidad.substring(0, cantidad.length() - 1);
+                txtCantidad.setText(cantidad);
             }
-        });
-    }
+        }
+        evt.consume();
+    }//GEN-LAST:event_txtCantidadKeyPressed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ActividadTerminada.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ActividadTerminada().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
@@ -139,4 +187,27 @@ public class ActividadTerminada extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtCantidad;
     // End of variables declaration//GEN-END:variables
+
+    private boolean valido(String string) {
+        int decimales = 0;
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == '.') {
+                decimales++;
+            }
+        }
+
+        if (decimales > 1) {
+            return false; // No permitir más de un punto decimal
+        }
+
+        String[] array = string.split("\\.");
+        System.out.println(array.length);
+        if (array.length == 1) {
+            if (array[0].length() > 15) return false; // Si el numero tiene mas de 15 digitos no aumenta
+        } else if (array.length == 2) {
+            if (array[1].length() > 10) return false; // Si el numero mas de 10 digitos luego del decimal no aumenta
+            if (string.length() > 16) return false; // Si el numero tiene mas de 15 y un punto decimal no aumenta
+        }
+        return true;
+    }
 }
