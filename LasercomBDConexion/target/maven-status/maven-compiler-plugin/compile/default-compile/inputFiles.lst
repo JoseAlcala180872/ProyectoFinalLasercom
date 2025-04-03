@@ -1,1 +1,10 @@
-C:\Users\Yeisi\Documents\NetBeansProjects\LasercomBDConexion\src\main\java\com\itson\lasercombdconexion\LasercomBDConexion.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\com\itson\lasercombdconexion\LasercomBDConexion.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\conexion\Conexion.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\conexion\ControladoraPersistencia.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\DAO\ActividadDAO.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\DAO\ClienteDAO.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\dominio\Actividad.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\dominio\Cliente.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\excepciones\PersistenciaExcepciones.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\interfaces\IActividadDAO.java
+C:\Users\Yeisi\Documents\GitHubPotros\ProyectoFinalLasercom\LasercomBDConexion\src\main\java\interfaces\IClienteDAO.java

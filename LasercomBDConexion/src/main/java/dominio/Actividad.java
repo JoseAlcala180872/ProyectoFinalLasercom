@@ -24,21 +24,21 @@ public class Actividad {
     private String descripcion;
     private Date fechaCreada;
     private Date fechaRealizar;
-    private Enum estado;
+//    private Enum estado;
     private double monto;
     private boolean estaTerminado;
 
     public Actividad() {
     }
 
-    public Actividad(int idActividad, Cliente cliente, int idTrabajador, String descripcion, Date fechaCreada, Date fechaRealizar, Enum estado, double monto, boolean estaTerminado) {
+    public Actividad(int idActividad, Cliente cliente, int idTrabajador, String descripcion, Date fechaCreada, Date fechaRealizar, double monto, boolean estaTerminado) {
         this.idActividad = idActividad;
         this.cliente = cliente;
         this.idTrabajador = idTrabajador;
         this.descripcion = descripcion;
         this.fechaCreada = fechaCreada;
         this.fechaRealizar = fechaRealizar;
-        this.estado = estado;
+//        this.estado = estado;
         this.monto = monto;
         this.estaTerminado = estaTerminado;
     }
@@ -91,13 +91,13 @@ public class Actividad {
         this.fechaRealizar = fechaRealizar;
     }
 
-    public Enum getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Enum estado) {
-        this.estado = estado;
-    }
+//    public Enum getEstado() {
+//        return estado;
+//    }
+//
+//    public void setEstado(Enum estado) {
+//        this.estado = estado;
+//    }
 
     public double getMonto() {
         return monto;
@@ -117,8 +117,10 @@ public class Actividad {
 
     @Override
     public String toString() {
-        return "Actividad{" + "idActividad=" + idActividad + ", cliente=" + cliente + ", idTrabajador=" + idTrabajador + ", descripcion=" + descripcion + ", fechaCreada=" + fechaCreada + ", fechaRealizar=" + fechaRealizar + ", estado=" + estado + ", monto=" + monto + ", estaTerminado=" + estaTerminado + '}';
+        return "Actividad{" + "idActividad=" + idActividad + ", cliente=" + cliente + ", idTrabajador=" + idTrabajador + ", descripcion=" + descripcion + ", fechaCreada=" + fechaCreada + ", fechaRealizar=" + fechaRealizar + ", monto=" + monto + ", estaTerminado=" + estaTerminado + '}';
     }
+
+    
     
     
     
