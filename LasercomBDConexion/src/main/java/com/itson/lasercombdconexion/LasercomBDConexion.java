@@ -4,8 +4,6 @@
 
 package com.itson.lasercombdconexion;
 
-import conexion.ControladoraPersistencia;
-
 /**
  *
  * @author Yeisi
@@ -13,6 +11,6 @@ import conexion.ControladoraPersistencia;
 public class LasercomBDConexion {
 
     public static void main(String[] args) {
-        ControladoraPersistencia controlPersist=new ControladoraPersistencia();
+        
     }
 }

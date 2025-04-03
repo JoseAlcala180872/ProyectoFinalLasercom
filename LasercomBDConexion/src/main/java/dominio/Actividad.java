@@ -25,12 +25,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 /**
- *  Entidad que representa una actividad dentro del sistema
+ * Entidad que representa una actividad dentro del sistema
+ *
  * @author Yeisi
  */
 @Entity
 @Table(name = "actividades")
 public class Actividad {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -65,12 +67,22 @@ public class Actividad {
     private Cliente cliente;
 
     /**
-     * Camba el estado de la actividad a TERMINADO y registra la fecha actual como fehca real de
-     * termino
+     * Camba el estado de la actividad a TERMINADO y registra la fecha actual
+     * como fehca real de termino
      */
     public void marcarComoTerminada() {
-        this.estado = EstadoActividad.TERMINADO;
-        this.fechaRealTermino = LocalDate.now(); // Fecha actual del sistema
+        if (this.estado != EstadoActividad.TERMINADO) {
+            this.estado = EstadoActividad.TERMINADO;
+            this.fechaRealTermino = LocalDate.now(); // Fecha actual del sistema
+        }
+    }
+    
+    public boolean isEditable() {
+        return estado != EstadoActividad.TERMINADO;
+    }
+    
+    public void avanzarEstado() {
+        this.estado = EstadoActividad.values()[this.estado.ordinal() + 1];
     }
 
     // Constructor por defecto
@@ -146,6 +158,10 @@ public class Actividad {
     }
 
     public void setMonto(BigDecimal monto) {
+        if (estado != EstadoActividad.TERMINADO && monto != null) {
+            throw new IllegalStateException("El monto solo puede asignarse cuando la actividad esta"
+                    + " terminada");
+        }
         this.monto = monto;
     }
 
@@ -156,8 +172,6 @@ public class Actividad {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
 
     @Override
     public int hashCode() {
