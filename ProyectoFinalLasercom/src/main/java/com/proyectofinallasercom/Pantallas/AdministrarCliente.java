@@ -35,10 +35,14 @@ public class AdministrarCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(750, 600));
 
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Administrar Cliente");
 
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnRegistrar.setText("Registrar Cliente");
 
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnEditar.setText("Editar Cliente");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -46,8 +50,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
             }
         });
 
+        btnListado.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnListado.setText("Listado de Clientes");
 
+        btnVolver.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnVolver.setText("Volver");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -58,33 +64,35 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnVolver))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(323, 323, 323)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(321, 321, 321)
-                        .addComponent(btnEditar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(313, 313, 313)
+                        .addComponent(btnVolver)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 215, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnListado)
-                    .addComponent(btnRegistrar))
-                .addGap(0, 304, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnEditar)
+                        .addGap(249, 249, 249))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnRegistrar)
+                        .addGap(221, 221, 221))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnListado)
+                        .addGap(203, 203, 203))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(71, 71, 71)
                 .addComponent(btnRegistrar)
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addComponent(btnEditar)
-                .addGap(18, 18, 18)
+                .addGap(49, 49, 49)
                 .addComponent(btnListado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 401, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(15, 15, 15))
         );

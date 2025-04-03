@@ -31,25 +31,28 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="323" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
-                      <Component id="btnEditar" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="313" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="215" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnListado" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnRegistrar" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnEditar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnRegistrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnListado" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="203" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="0" pref="304" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,13 +61,13 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
               <Component id="btnRegistrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Component id="btnEditar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Component id="btnListado" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="401" max="32767" attributes="0"/>
+              <EmptySpace pref="141" max="32767" attributes="0"/>
               <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
@@ -74,16 +77,26 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Century Gothic" size="36" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Administrar Cliente"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRegistrar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="36" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Registrar Cliente"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="36" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Editar Cliente"/>
       </Properties>
       <Events>
@@ -92,11 +105,17 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnListado">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="36" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Listado de Clientes"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnVolver">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="36" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Volver"/>
       </Properties>
     </Component>
