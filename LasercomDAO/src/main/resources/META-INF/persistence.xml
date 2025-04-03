@@ -11,7 +11,7 @@
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/lasercombd?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="jakarta.persistence.jdbc.password" value=""/>
+      <property name="jakarta.persistence.jdbc.password" value="13268Zay"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINE"/> <!-- Para ver SQL en logs -->
       <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
