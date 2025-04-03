@@ -14,7 +14,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.List;
 
 /**
  *  Entidad que representa un cliente en el sistema
@@ -53,6 +55,13 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
+    public Cliente(String nombre, String correo, String telefono, String direccion) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+    
     // Constructor con todos los atributos de la clase
     public Cliente(Long idCliente, String nombre, String correo, String telefono, String direccion) {
         this.idCliente = idCliente;
@@ -120,7 +129,42 @@ public class Cliente implements Serializable {
         Cliente cliente = (Cliente) o;
 
         return Objects.equals(idCliente, cliente.idCliente);
-
     }
-
+    
+    /**
+     * Valida los campos del cliente y devuelve una lista de mensajes de error.
+     * @return  Lista de mensajes de error (vacia si no hay errores).
+     */
+    public List<String> getMensajesError() {
+        List<String> errores = new ArrayList<>();
+        
+        if (nombre == null || nombre.trim().isEmpty()) {
+            errores.add("El nombre es obligatorio");
+        }
+        
+        if (telefono == null || telefono.trim().isEmpty()) {
+            errores.add("El telefono es obligatorio");
+        } else if (!telefono.matches("^[0-9]{10,15}$")) {
+            errores.add("El telefono debe tener entre 10 y 15 digitos");
+        }
+        
+        if (correo == null || correo.trim().isEmpty()) {
+            errores.add("El correo electronico es obligatorio");
+        } else if (!correo.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            errores.add("El correo electronico no tiene un formato valido");
+        }
+        
+        if (direccion == null || direccion.trim().isEmpty()) {
+            errores.add("La direccion es obligatoria");
+        }
+            
+        return errores;
+    }
+    
+    /**
+     * Version simplificada de validacion para usos donde solo se necesite saber si es valido.
+     */
+    public boolean isValid() {
+        return getMensajesError().isEmpty();
+    }
 }

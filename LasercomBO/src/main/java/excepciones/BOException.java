@@ -8,22 +8,22 @@ package excepciones;
  *
  * @author FER
  */
-public class DAOException extends RuntimeException {
+public class BOException extends RuntimeException {
     
     /**
-     * Constructor con mensaje.
+     * Constructor con mensaje
      * @param message 
      */
-    public DAOException(String message) {
-        super("[DAO] " + message);
+    public BOException(String message) {
+        super("[BO] " + message);
     }
     
     /**
-     * Constructor con mensaje y causa.
+     * Constructor con mensaje y causa
      * @param message
      * @param cause 
      */
-    public DAOException(String message, Throwable cause) {
-        super("[DAO} " + message, cause);
+    public BOException(String message, Throwable cause) {
+        super("[BO] " + message, cause);
     }
 }

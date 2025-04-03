@@ -23,6 +23,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Entidad que representa una actividad dentro del sistema
@@ -66,25 +68,6 @@ public class Actividad {
     @NotNull(message = "El cliente es obligatorio")
     private Cliente cliente;
 
-    /**
-     * Camba el estado de la actividad a TERMINADO y registra la fecha actual
-     * como fehca real de termino
-     */
-    public void marcarComoTerminada() {
-        if (this.estado != EstadoActividad.TERMINADO) {
-            this.estado = EstadoActividad.TERMINADO;
-            this.fechaRealTermino = LocalDate.now(); // Fecha actual del sistema
-        }
-    }
-    
-    public boolean isEditable() {
-        return estado != EstadoActividad.TERMINADO;
-    }
-    
-    public void avanzarEstado() {
-        this.estado = EstadoActividad.values()[this.estado.ordinal() + 1];
-    }
-
     // Constructor por defecto
     public Actividad() {
     }
@@ -94,6 +77,14 @@ public class Actividad {
         this.idActividad = idActividad;
     }
 
+    public Actividad(Cliente cliente, String titulo, String descripcion, LocalDate fechaTermino) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaTermino = fechaTermino;
+        this.cliente = cliente;
+    }
+    
+    
     // Constructor con todos los atributos de la clase
     public Actividad(Long idActividad, String titulo, String descripcion, LocalDate fechaTermino, LocalDate fechaRealTermino, BigDecimal monto, Cliente cliente) {
         this.idActividad = idActividad;
@@ -190,4 +181,41 @@ public class Actividad {
         return Objects.equals(idActividad, actividad.idActividad);
     }
 
+    /**
+     * Camba el estado de la actividad a TERMINADO y registra la fecha actual
+     * como fehca real de termino
+     */
+    public void marcarComoTerminada() {
+        if (this.estado != EstadoActividad.TERMINADO) {
+            this.estado = EstadoActividad.TERMINADO;
+            this.fechaRealTermino = LocalDate.now(); // Fecha actual del sistema
+        }
+    }
+
+    public boolean isEditable() {
+        return estado != EstadoActividad.TERMINADO;
+    }
+
+    public void avanzarEstado() {
+        this.estado = EstadoActividad.values()[this.estado.ordinal() + 1];
+    }
+
+    public boolean isRegistroValido() {
+        return cliente != null && cliente.getIdCliente() != null && titulo != null && !titulo.trim().isEmpty();
+    }
+    
+    public List<String> getMensajesError() {
+        List<String> errores = new ArrayList<>();
+        if (titulo == null || titulo.trim().isEmpty()) {
+            errores.add("El titulo es obligatorio");
+        }
+        if(cliente == null || cliente.getIdCliente() == null) {
+            errores.add("El cliente asociado es requerido");
+        }
+        return errores;
+    }
+    
+    public boolean isValid() {
+        return getMensajesError().isEmpty();
+    }
 }
