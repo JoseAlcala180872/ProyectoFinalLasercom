@@ -93,6 +93,72 @@ public class Actividad {
         this.cliente = cliente;
     }
 
+    public Long getIdActividad() {
+        return idActividad;
+    }
+
+    public void setIdActividad(Long idActividad) {
+        this.idActividad = idActividad;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public LocalDate getFechaTermino() {
+        return fechaTermino;
+    }
+
+    public void setFechaTermino(LocalDate fechaTermino) {
+        this.fechaTermino = fechaTermino;
+    }
+
+    public LocalDate getFechaRealTermino() {
+        return fechaRealTermino;
+    }
+
+    public void setFechaRealTermino(LocalDate fechaRealTermino) {
+        this.fechaRealTermino = fechaRealTermino;
+    }
+
+    public EstadoActividad getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoActividad estado) {
+        this.estado = estado;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         return Objects.hash(idActividad);
