@@ -88,20 +88,10 @@ public class EditarCliente extends javax.swing.JFrame {
         });
 
         txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreKeyTyped(evt);
-            }
-        });
 
         txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
         txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefonoKeyTyped(evt);
-            }
-        });
 
         txtDireccion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
 
@@ -203,8 +193,6 @@ public class EditarCliente extends javax.swing.JFrame {
             try {
                 clienteBO.actualizarCliente(cliente);
                 JOptionPane.showMessageDialog(this, "Cliente actualizado con éxito");
-                new AdministrarCliente().setVisible(true);
-                dispose();
             } catch (BOException e) {
                 JOptionPane.showMessageDialog(this, "Error al actualizar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -212,22 +200,6 @@ public class EditarCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione un cliente para actualizar", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        char c = evt.getKeyChar();
-
-        if (!Character.isLetter(c) && c != ' ' && c != KeyEvent.VK_BACK_SPACE) {
-            evt.consume(); // Ignorar caracteres no válidos
-        }
-    }//GEN-LAST:event_txtNombreKeyTyped
-
-    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
-        char c = evt.getKeyChar();
-
-        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-            evt.consume(); // Ignorar caracteres no válidos
-        }
-    }//GEN-LAST:event_txtTelefonoKeyTyped
 
     private void cboxListaClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxListaClientesActionPerformed
         cargarDatosCliente();

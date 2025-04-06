@@ -9,6 +9,7 @@ import dao.ActividadDAO;
 import dominio.Actividad;
 import excepciones.BOException;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,15 +18,14 @@ import javax.swing.JOptionPane;
  */
 public class ActividadTerminada extends javax.swing.JFrame {
 
-    private String cantidad = "";
-    private Actividad actividad;
+    private final Actividad actividad;
+    private final ActividadBO actividadBO;
 
-    /**
-     * Creates new form ActividadTerminada
-     */
     public ActividadTerminada(Actividad actividad) {
-        initComponents();
         this.actividad = actividad;
+        this.actividadBO = new ActividadBO(new ActividadDAO());
+        initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -53,14 +53,6 @@ public class ActividadTerminada extends javax.swing.JFrame {
         lblDescripcion.setText("Anada los ingresos generados por esta actividad");
 
         txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCantidadKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCantidadKeyTyped(evt);
-            }
-        });
 
         btnAceptar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
@@ -107,44 +99,48 @@ public class ActividadTerminada extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
-            double monto = Double.parseDouble(txtCantidad.getText());
-            actividad.setMontoGenerado(monto);
+            // Validar que el campo no esté vacío
+            if (txtCantidad.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un monto", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            // Convertir y validar el monto
+            BigDecimal monto = new BigDecimal(txtCantidad.getText());
+            if (monto.compareTo(BigDecimal.ZERO) <= 0) {
+                JOptionPane.showMessageDialog(this, "El monto debe ser mayor que cero", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Actualizar la actividad localmente
+            actividad.setMonto(monto);
+
+            // Usar el método existente del BO para registrar el monto
             ActividadBO actividadBO = new ActividadBO(new ActividadDAO());
-            actividadBO.actualizarActividad(actividad);
+            actividadBO.registrarMontoActividad(actividad.getIdActividad(), monto);
 
-            JOptionPane.showMessageDialog(this, "Monto guardado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                "Monto $" + monto + " registrado con éxito", 
+                "Éxito", 
+                JOptionPane.INFORMATION_MESSAGE);
+
+            // Regresar al administrador de actividades
             new AdministrarActividad().setVisible(true);
-            dispose();
+            this.dispose();
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Formato de monto inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                "Ingrese un monto válido (ej. 1500.50)", 
+                "Error de formato", 
+                JOptionPane.ERROR_MESSAGE);
+            txtCantidad.requestFocus();
         } catch (BOException e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar el monto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                "Error al guardar: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-        char c = evt.getKeyChar();
-        System.out.println(evt.getKeyChar());
-
-        if (Character.isDigit(c) || c == '.') {
-            if (valido(cantidad + c)) {
-                cantidad += c;
-            }
-        }
-        txtCantidad.setText(cantidad);
-        evt.consume();
-    }//GEN-LAST:event_txtCantidadKeyTyped
-
-    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            if (cantidad.length() > 0) {
-                cantidad = cantidad.substring(0, cantidad.length() - 1);
-                txtCantidad.setText(cantidad);
-            }
-        }
-        evt.consume();
-    }//GEN-LAST:event_txtCantidadKeyPressed
 
 //    /**
 //     * @param args the command line arguments
@@ -188,26 +184,4 @@ public class ActividadTerminada extends javax.swing.JFrame {
     private javax.swing.JTextField txtCantidad;
     // End of variables declaration//GEN-END:variables
 
-    private boolean valido(String string) {
-        int decimales = 0;
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == '.') {
-                decimales++;
-            }
-        }
-
-        if (decimales > 1) {
-            return false; // No permitir más de un punto decimal
-        }
-
-        String[] array = string.split("\\.");
-        System.out.println(array.length);
-        if (array.length == 1) {
-            if (array[0].length() > 15) return false; // Si el numero tiene mas de 15 digitos no aumenta
-        } else if (array.length == 2) {
-            if (array[1].length() > 10) return false; // Si el numero mas de 10 digitos luego del decimal no aumenta
-            if (string.length() > 16) return false; // Si el numero tiene mas de 15 y un punto decimal no aumenta
-        }
-        return true;
-    }
 }

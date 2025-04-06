@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class EditarActividad extends javax.swing.JFrame {
 
-    private Actividad actividad
+    private Actividad actividad;
 
     /**
      * Creates new form EditarActividad
@@ -246,6 +246,7 @@ public class EditarActividad extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Formato de fecha inválido (dd/mm/aaaa).", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (BOException e) {
+            System.out.println("Error en EditarActividad");
             JOptionPane.showMessageDialog(this, "Error al actualizar actividad: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed

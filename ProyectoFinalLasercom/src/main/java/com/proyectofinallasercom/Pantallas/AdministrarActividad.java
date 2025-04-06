@@ -4,17 +4,30 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import bo.ActividadBO;
+import com.proyectofinallasercom.Pantallas.dnd.BoardPanel;
+import dao.ActividadDAO;
+import dominio.Actividad;
+import excepciones.BOException;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Choche
  */
 public class AdministrarActividad extends javax.swing.JFrame {
 
+    private final ActividadBO actividadBO;
+    private List<Actividad> listaActividades; // Lista para almacenar todas las actividades
+
     /**
      * Creates new form AdministrarActividad
      */
     public AdministrarActividad() {
         initComponents();
+        actividadBO = new ActividadBO(new ActividadDAO()); // Inicializa tu ActividadBO
+        cargarTablero();
     }
 
     /**
@@ -28,8 +41,6 @@ public class AdministrarActividad extends javax.swing.JFrame {
 
         lblTitulo = new javax.swing.JLabel();
         pnlActividades = new javax.swing.JPanel();
-        btnActividadTerminada = new javax.swing.JButton();
-        btnEjemploActividad = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnRegistrarActividad = new javax.swing.JButton();
 
@@ -39,45 +50,7 @@ public class AdministrarActividad extends javax.swing.JFrame {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Administrar actividad");
 
-        btnActividadTerminada.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnActividadTerminada.setText("<html>Actividad<br>Terminada</html>");
-        btnActividadTerminada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActividadTerminadaActionPerformed(evt);
-            }
-        });
-
-        btnEjemploActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnEjemploActividad.setText("<html>Ejemplo<br>Actividad</html>");
-        btnEjemploActividad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEjemploActividadActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlActividadesLayout = new javax.swing.GroupLayout(pnlActividades);
-        pnlActividades.setLayout(pnlActividadesLayout);
-        pnlActividadesLayout.setHorizontalGroup(
-            pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlActividadesLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(btnEjemploActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnActividadTerminada, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
-        );
-        pnlActividadesLayout.setVerticalGroup(
-            pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlActividadesLayout.createSequentialGroup()
-                .addGroup(pnlActividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlActividadesLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btnActividadTerminada, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlActividadesLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btnEjemploActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(248, Short.MAX_VALUE))
-        );
+        pnlActividades.setLayout(new java.awt.BorderLayout());
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
@@ -102,7 +75,7 @@ public class AdministrarActividad extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlActividades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlActividades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +89,7 @@ public class AdministrarActividad extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(pnlActividades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlActividades, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRegistrarActividad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -137,16 +110,6 @@ public class AdministrarActividad extends javax.swing.JFrame {
         new RegistrarActividad().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnRegistrarActividadActionPerformed
-
-    private void btnActividadTerminadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActividadTerminadaActionPerformed
-        new ActividadTerminada().setVisible(true); // Aqui falta poner algo de parametro
-        dispose();
-    }//GEN-LAST:event_btnActividadTerminadaActionPerformed
-
-    private void btnEjemploActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemploActividadActionPerformed
-        new EditarActividad().setVisible(true); // Aqui falta poner algo de parametro
-        dispose();
-    }//GEN-LAST:event_btnEjemploActividadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,11 +147,35 @@ public class AdministrarActividad extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActividadTerminada;
-    private javax.swing.JButton btnEjemploActividad;
     private javax.swing.JButton btnRegistrarActividad;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlActividades;
     // End of variables declaration//GEN-END:variables
+
+    public ActividadBO getActividadBO() {
+        return actividadBO;
+    }
+
+    public void cargarTablero() {
+        pnlActividades.removeAll();
+        try {
+            listaActividades = actividadBO.obtenerTableroKanban();
+            BoardPanel boardPanel = new BoardPanel(listaActividades, this);
+            pnlActividades.add(boardPanel);
+            pnlActividades.revalidate();
+            pnlActividades.repaint();
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar actividades: " + e.getMessage());
+        }
+    }
+
+    public Actividad obtenerActividadPorId(Long id) {
+        for (Actividad actividad : listaActividades) {
+            if (actividad.getIdActividad().equals(id)) { // Usar getIdActividad() aquí también
+                return actividad;
+            }
+        }
+        return null;
+    }
 }
