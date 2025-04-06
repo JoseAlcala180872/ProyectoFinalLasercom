@@ -75,13 +75,13 @@ public class RegistrarCliente extends javax.swing.JFrame {
         lblDireccion.setText("Direccion:");
         lblDireccion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtDireccion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDireccion.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
@@ -146,7 +146,7 @@ public class RegistrarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))

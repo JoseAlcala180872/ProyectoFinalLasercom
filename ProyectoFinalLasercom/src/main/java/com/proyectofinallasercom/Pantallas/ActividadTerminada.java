@@ -52,7 +52,7 @@ public class ActividadTerminada extends javax.swing.JFrame {
         lblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDescripcion.setText("Anada los ingresos generados por esta actividad");
 
-        txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
         btnAceptar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");

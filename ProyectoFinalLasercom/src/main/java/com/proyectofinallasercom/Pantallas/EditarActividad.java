@@ -86,11 +86,11 @@ public class EditarActividad extends javax.swing.JFrame {
         lblDescripcion.setText("Descripcion:");
 
         txtCliente.setEditable(false);
-        txtCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtCliente.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtTitulo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtTitulo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtDia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtDiaKeyTyped(evt);
@@ -101,7 +101,7 @@ public class EditarActividad extends javax.swing.JFrame {
         lblDiagonal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDiagonal.setText("/");
 
-        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtMes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtMesKeyTyped(evt);
@@ -112,14 +112,14 @@ public class EditarActividad extends javax.swing.JFrame {
         lblDiagonal1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDiagonal1.setText("/");
 
-        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtAnho.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtAnhoKeyTyped(evt);
             }
         });
 
-        txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
@@ -199,7 +199,7 @@ public class EditarActividad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))

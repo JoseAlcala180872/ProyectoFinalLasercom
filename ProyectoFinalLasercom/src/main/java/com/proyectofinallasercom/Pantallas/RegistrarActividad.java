@@ -84,12 +84,12 @@ public class RegistrarActividad extends javax.swing.JFrame {
         lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblFecha.setText("Fecha:");
 
-        cboxListaClientes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        cboxListaClientes.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         cboxListaClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar Cliente...", "Cliente 1", "Cliente 2", "Cliente 3", "Cliente 4", "Cliente 5" }));
 
-        txtlblTitulo.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtlblTitulo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnVolver.setText("Volver");
@@ -107,7 +107,7 @@ public class RegistrarActividad extends javax.swing.JFrame {
             }
         });
 
-        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtDia.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtDia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtDiaKeyTyped(evt);
@@ -118,7 +118,7 @@ public class RegistrarActividad extends javax.swing.JFrame {
         lblDiagonal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDiagonal.setText("/");
 
-        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtMes.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtMes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtMesKeyTyped(evt);
@@ -129,7 +129,7 @@ public class RegistrarActividad extends javax.swing.JFrame {
         lblDiagonal1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDiagonal1.setText("/");
 
-        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        txtAnho.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtAnho.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtAnhoKeyTyped(evt);
@@ -198,7 +198,7 @@ public class RegistrarActividad extends javax.swing.JFrame {
                         .addComponent(lblDiagonal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblDiagonal1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
