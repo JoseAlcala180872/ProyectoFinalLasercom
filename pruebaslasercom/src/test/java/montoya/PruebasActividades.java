@@ -3,6 +3,12 @@ package montoya;
 import static org.junit.Assert.assertTrue;
 import java.sql.Date;
 import org.junit.Test;
+import bo.ActividadBO;
+import dao.ActividadDAO;
+import Pantallas.*;
+
+import dominio.Cliente;
+import excepciones.BOException;
 
 public class PruebasActividades
 {

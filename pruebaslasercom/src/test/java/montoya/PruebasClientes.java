@@ -1,7 +1,15 @@
 package montoya;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
+import bo.ClienteBO;
+import dao.ClienteDAO;
+import dominio.Cliente;
+import excepciones.BOException;
+import Pantallas.*;
+import java.awt.Robot;
 
 public class PruebasClientes 
 {
@@ -23,6 +31,17 @@ public class PruebasClientes
         String numero = "6442145231";
         String correo = "juanperez123@gmail.com";
         String direccion = "Bella Vista 1234";
+        try {
+            // TODO: handle exception
+            Cliente cliente = new Cliente(nombre, correo, numero, direccion);
+        
+            ClienteBO instance = new ClienteBO(new ClienteDAO());
+            instance.registrarCliente(cliente);
+        } catch (Exception e) {
+            fail(e.getClass().getSimpleName() + " was thrown");
+        }
+        
+
         
         assertTrue( true );
     }
