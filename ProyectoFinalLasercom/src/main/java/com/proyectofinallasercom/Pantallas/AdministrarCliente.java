@@ -39,6 +39,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         lblTitulo.setText("Administrar Cliente");
 
         btnRegistrarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnRegistrarCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\business_application_addmale_useradd_insert_add_user_client_2312.png")); // NOI18N
         btnRegistrarCliente.setText("Registrar Cliente");
         btnRegistrarCliente.setToolTipText("");
         btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -48,6 +49,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         });
 
         btnEditarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnEditarCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\businessapplication_edit_male_user_thepencil_theclient_negocio_2321.png")); // NOI18N
         btnEditarCliente.setText("Editar Cliente");
         btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,9 +58,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         });
 
         btnListadoClientes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnListadoClientes.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\4288574andcontractdocumentfilesfolderspaperuser-115783_115730.png")); // NOI18N
         btnListadoClientes.setText("Listado de Clientes");
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\folder_beige_parent.png")); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

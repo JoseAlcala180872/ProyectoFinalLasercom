@@ -53,6 +53,7 @@ public class AdministrarActividad extends javax.swing.JFrame {
         pnlActividades.setLayout(new java.awt.BorderLayout());
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\folder_beige_parent.png")); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,6 +62,7 @@ public class AdministrarActividad extends javax.swing.JFrame {
         });
 
         btnRegistrarActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnRegistrarActividad.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\purchaseorderapplication_compra_orde_4474.png")); // NOI18N
         btnRegistrarActividad.setText("<html>Registrar<br>Actividad</html>");
         btnRegistrarActividad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
