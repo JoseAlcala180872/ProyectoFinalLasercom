@@ -1,3 +1,4 @@
+dominio\Usuario.class
 com\itson\lasercombdconexion\LasercomBDConexion.class
 dominio\Actividad.class
 dominio\EstadoActividad.class

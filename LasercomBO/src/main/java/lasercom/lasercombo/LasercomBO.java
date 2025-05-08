@@ -5,6 +5,7 @@ package lasercom.lasercombo;
 
 import bo.ActividadBO;
 import bo.ClienteBO;
+import bo.UsuarioBO;
 import dao.ActividadDAO;
 import dao.ClienteDAO;
 import dominio.Actividad;
@@ -84,5 +85,16 @@ public class LasercomBO {
             System.err.println("Error al cargar tablero: " + e.getMessage());
         }
         */
+        
+        // Prueba de registro (Pruebas pasadas).
+//        UsuarioBO usuarioBO = new UsuarioBO();
+//        boolean registrado = usuarioBO.registrar("Tadeo123", "12345678", "tadeo@gmail.com");
+//        System.out.println("Registro exitoso: " + registrado);
+//
+//        boolean loginExitoso = usuarioBO.login("Tadeo123", "12345678");
+//        System.out.println("Login exitoso: " + loginExitoso);
+//        
+//        boolean loginInvalido = usuarioBO.login("Tadeo123", "12345");
+//        System.out.println("Login Invalido: " + loginInvalido);
     }
 }
