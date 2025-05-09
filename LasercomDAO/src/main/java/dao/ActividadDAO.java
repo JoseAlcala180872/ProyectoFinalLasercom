@@ -9,6 +9,7 @@ import dominio.Actividad;
 import dominio.EstadoActividad;
 import excepciones.DAOException;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -193,6 +194,25 @@ public class ActividadDAO {
     public void cerrar() {
         if (em != null && em.isOpen()) {
             em.close();
+        }
+    }
+    
+    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws DAOException {
+        String fi = fInicial.getDayOfMonth()+"-"+fInicial.getMonth()+"-"+fInicial.getYear();
+        String ff = fFinal.getDayOfMonth()+"-"+fFinal.getMonth()+"-"+fFinal.getYear();
+        
+        try {
+            TypedQuery<Actividad> query = em.createQuery(
+                    "SELECT a FROM Cliente a WHERE a.fechaRealTermino BETWEEN :fInicial AND :fFinal", Actividad.class);
+            query.setParameter("fInicial", "%" + fi + "%");
+            query.setParameter("fFinal", "%" + ff + "%");
+            return query.getResultList();
+        } catch (DAOException e) {
+            throw new DAOException("Error al buscar por actividades entre fechas", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 }

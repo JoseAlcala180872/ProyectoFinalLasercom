@@ -10,6 +10,7 @@ import dominio.EstadoActividad;
 import excepciones.BOException;
 import excepciones.DAOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -97,6 +98,14 @@ public class ActividadBO {
             return actividadDAO.obtenerTableroCompleto();
         } catch (Exception e) {
             throw new BOException("Error al cargar el tablero Kanban", e);
+        }
+    }
+    
+    public List<Actividad> buscarActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws BOException {
+        try {
+            return actividadDAO.obtenerActividadesEntreFechas(fInicial, fFinal);
+        } catch (Exception e) {
+            throw new BOException("Error al buscar Actividade por fecha", e);
         }
     }
 }
