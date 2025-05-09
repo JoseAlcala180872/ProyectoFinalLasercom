@@ -12,10 +12,11 @@
       <property name="jakarta.persistence.jdbc.password" value=""/>
       <property name="eclipselink.logging.level" value="FINE"/>
       <!-- Para ver SQL en logs -->
-      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
       <!-- Para que las 
         tablas se creen en la BD -->
+      <property name="jakarta.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
