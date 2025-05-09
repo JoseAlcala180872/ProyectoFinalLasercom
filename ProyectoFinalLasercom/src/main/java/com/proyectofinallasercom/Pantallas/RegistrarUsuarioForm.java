@@ -32,7 +32,6 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombreUsuario = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
@@ -42,6 +41,7 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
         btnRegistrar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblTitulo1 = new javax.swing.JLabel();
+        txtNombreUsuario = new javax.swing.JTextField();
 
         jLabel2.setText("jLabel2");
 
@@ -98,10 +98,10 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
                             .addComponent(txtContrasena, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombreUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                            .addComponent(txtEmail))
+                            .addComponent(txtEmail)
+                            .addComponent(txtNombreUsuario))
                         .addGap(0, 58, Short.MAX_VALUE))
                     .addComponent(lblTitulo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -112,13 +112,13 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(137, 137, 137)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -127,7 +127,7 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
                     .addComponent(btnCancelar))
@@ -158,6 +158,8 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
         boolean registrado = usuarioBO.registrar(nombreUsuario, contrasena, email);
         if (registrado) {
             JOptionPane.showMessageDialog(this, "Registro exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            new LoginForm().setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar. Verifica que el usuario o correo no esten registrados.", "Error", JOptionPane.ERROR_MESSAGE);
             dispose();
@@ -212,6 +214,6 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtConfirmarContrasena;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JButton txtNombreUsuario;
+    private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }
