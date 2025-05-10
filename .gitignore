@@ -1,3 +1,5 @@
 /LasercomDAO/target/
 /LasercomBO/target/
 /ProyectoFinalLasercom/target/
+LasercomDAO/src/main/resources/META-INF/persistence.xml
+LasercomDAO/src/main/resources/META-INF/persistence.xml

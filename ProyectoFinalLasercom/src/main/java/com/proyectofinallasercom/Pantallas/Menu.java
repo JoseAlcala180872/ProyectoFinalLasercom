@@ -79,6 +79,11 @@ public class Menu extends javax.swing.JFrame {
 
         btnMostrarEstadisticas.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnMostrarEstadisticas.setText("<html>Mostrar<br>Estadísticas</html>");
+        btnMostrarEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarEstadisticasActionPerformed(evt);
+            }
+        });
 
         btnExportarReportes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnExportarReportes.setText("<html>Exportar<br>Reportes</html>");
@@ -161,6 +166,11 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         new RegistrarUsuarioForm().setVisible(true);
     }//GEN-LAST:event_btnRegistrarUusarioActionPerformed
+
+    private void btnMostrarEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarEstadisticasActionPerformed
+        new Estadisticas().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnMostrarEstadisticasActionPerformed
 
     /**
      * @param args the command line arguments

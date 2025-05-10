@@ -1,6 +1,4 @@
-
 package com.proyectofinallasercom.Pantallas;
-
 
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -10,26 +8,49 @@ import dominio.Actividad;
 import java.util.List;
 import bo.ActividadBO;
 import dao.ActividadDAO;
+import excepciones.BOException;
+import java.awt.Component;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class Estadisticas extends javax.swing.JFrame {
+
     LocalDate fInicial = LocalDate.MIN;
     LocalDate fFinal = LocalDate.MAX;
-    
+
     DefaultTableModel modelo = new DefaultTableModel();
-    
+
     List<Actividad> lista;
     private final ActividadBO actividadBO;
-    
+
     //regex
     Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$");
     Matcher matcher;
-        
-    
+
     public Estadisticas() {
         actividadBO = new ActividadBO(new ActividadDAO());
         initComponents();
+        
+        // Inicializar el modelo de tabla
+        modelo = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"Título", "Fecha Terminada", "Cliente", "Monto"}
+        );
+
+        // Configurar la tabla
+        jTable1.setModel(modelo);
+
+        // Configurar ancho de columnas (opcional pero recomendado)
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(150); // Título
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100); // Fecha
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(120); // Cliente
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);  // Monto
+        
     }
 
     /**
@@ -46,7 +67,7 @@ public class Estadisticas extends javax.swing.JFrame {
         txtFechaInicial = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtFechaFinal = new javax.swing.JTextField();
-        btnComfirmar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
@@ -62,6 +83,7 @@ public class Estadisticas extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel2.setText("Fecha inicial");
 
+        txtFechaInicial.setText("05/05/2025");
         txtFechaInicial.setToolTipText("dd/mm/aaaa");
         txtFechaInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,13 +94,14 @@ public class Estadisticas extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel3.setText("Fecha Final");
 
+        txtFechaFinal.setText("10/05/2025");
         txtFechaFinal.setToolTipText("dd/mm/aaaa");
 
-        btnComfirmar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnComfirmar.setText("Comfirmar");
-        btnComfirmar.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnComfirmarActionPerformed(evt);
+                btnConfirmarActionPerformed(evt);
             }
         });
 
@@ -139,7 +162,7 @@ public class Estadisticas extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(70, 70, 70)
-                                    .addComponent(btnComfirmar)
+                                    .addComponent(btnConfirmar)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -162,7 +185,7 @@ public class Estadisticas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnComfirmar))
+                        .addComponent(btnConfirmar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -184,67 +207,158 @@ public class Estadisticas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnComfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComfirmarActionPerformed
-        // TODO add your handling code here:
-        String fechaInicial = txtFechaInicial.getText();
-        String fechaFinal = txtFechaFinal.getText();        
-        
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+
         // si la fecha inicial o final no estan llenadas, entonces no tiene limite
-        
         // es decir, si se tiene la fecha inicial del 12/02/2024 y no tiene final
         // se va a mostrar cada tarea de ese dia y adelante
-        
         // si no tiene inicial pero tiene una final de 12/02/2024
         // se muestra cada tarea antes de esa fecha
-        
         // si las dos fechas estan vacias, se muestras todos los registros
         // o le avisamos al usuario que debe llenar una fecha
         // ustedes deciden.
-        
-        if (validacionFechas(fechaInicial, fechaFinal)){
-            
-            // SELECT * FROM Actividad
-            // WHERE fechaRealTermino BETWEEN #fInicial# AND #fFinal#;
-            
-            
-            try {
-                // se obtiene la lista con todas las tareas
-                lista = actividadBO.buscarActividadesEntreFechas(fInicial, fFinal);
-                // se crea un contador de los montos
-                BigDecimal monto = BigDecimal.ZERO;
-                // limpia la tabla al momento de insertar datos nuevos
-                modelo.setRowCount(0);
-                
-                // se crea el arreglo donde se va a guardar datos de cada actvidad
-                String[] data = new String[4];
-                for (Actividad act : lista) {
-                    // se guarda los datos de la actividad en el arreglo
-                    data[0] = act.getTitulo();
-                    data[1] = act.getFechaRealTermino().toString();
-                    data[2] = act.getCliente().getNombre();
-                    data[3] = act.getMonto().toString();
-                    
-                    // se suma el monto
-                    monto.add(act.getMonto());       
-                    
-                    // se agrega al model
-                    modelo.addRow(data);
+        try {
+            // Obtener fechas de los campos
+            String strFechaInicial = txtFechaInicial.getText().trim();
+            String strFechaFinal = txtFechaFinal.getText().trim();
+
+            // Validar que no estén vacías
+            if (strFechaInicial.isEmpty() || strFechaFinal.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe especificar ambas fechas",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Convertir a LocalDate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fechaInicial = LocalDate.parse(strFechaInicial, formatter);
+            LocalDate fechaFinal = LocalDate.parse(strFechaFinal, formatter);
+
+            // Obtener actividades
+            List<Actividad> actividades = actividadBO.obtenerActividadesEntreFechas(fechaInicial, fechaFinal);
+
+            // Mostrar en tabla
+            mostrarActividadesEnTabla(actividades);
+
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    /**
+     * Metodo para parsear fechas de String a LocalDate.
+     *
+     * @param fechaStr String fecha a parsear a LocalDate.
+     * @return Fecha parseada a LocalDate.
+     */
+    private LocalDate parseFecha(String fechaStr) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(fechaStr, formatter);
+    }
+
+    /**
+     * Metodo para validar el rango de fechas.
+     *
+     * @param fInicial Fecha inicial del rango.
+     * @param fFinal Fecha final del rango.
+     * @return True en caso de que sea un rango valido, False en caso de que sea
+     * un rango invalido.
+     */
+    private boolean validarRangoFechas(LocalDate fInicial, LocalDate fFinal) {
+        if (fInicial != null && fFinal != null && fInicial.isAfter(fFinal)) {
+            JOptionPane.showMessageDialog(this, "La fecha inicial no puede ser mayor que la fecha final", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Metodo para mostrar las actividades en tabla.
+     *
+     * @param actividades
+     */
+    private void mostrarActividadesEnTabla(List<Actividad> actividades) {
+        // Verificar si hay datos
+        if (actividades == null || actividades.isEmpty()) {
+            modelo.setRowCount(0); // Limpiar tabla
+            txtMonto.setText("0.00");
+            return;
+        }
+
+        // 2. Debug: Verificar los datos recibidos
+        System.out.println("Datos recibidos para mostrar:");
+        actividades.forEach(act -> System.out.println(
+                "Título: " + act.getTitulo()
+                + ", Cliente: " + (act.getCliente() != null ? act.getCliente().getNombre() : "null")
+                + ", Monto: " + act.getMonto()
+        ));
+
+        // Configurar el modelo de tabla
+        modelo.setRowCount(0); // Limpiar tabla existente
+        BigDecimal montoTotal = BigDecimal.ZERO;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Configurar renderizador para la tabla
+        jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                // Formatear montos como moneda
+                if (value instanceof BigDecimal) {
+                    value = NumberFormat.getCurrencyInstance().format(value);
                 }
-                // se pone el model en la tabla
-                jTable1.setModel(modelo);
-                // se pone el monto acumulado en el periodo en el txt
-                txtMonto.setText(monto.toString());
-                
-                // se agrega cada una de las tareas al modelo
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        });
+
+        // Llenar la tabla
+        for (Actividad act : actividades) {
+            try {
+                Object[] rowData = {
+                    act.getTitulo() != null ? act.getTitulo() : "",
+                    act.getFechaRealTermino() != null
+                    ? act.getFechaRealTermino().format(dateFormatter) : "N/A",
+                    act.getCliente() != null ? act.getCliente().getNombre() : "Sin cliente",
+                    act.getMonto() != null ? act.getMonto() : BigDecimal.ZERO
+                };
+
+                modelo.addRow(rowData);
+
+                if (act.getMonto() != null) {
+                    montoTotal = montoTotal.add(act.getMonto());
+                }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al cargar actividades: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Error procesando actividad: " + e.getMessage());
+                e.printStackTrace();
             }
         }
-        
-        
-        
-        
-    }//GEN-LAST:event_btnComfirmarActionPerformed
+
+        // Actualizar UI
+        txtMonto.setText(NumberFormat.getCurrencyInstance().format(montoTotal));
+
+        // Forzar actualización de la tabla
+        jTable1.setModel(modelo);
+        jTable1.revalidate();
+        jTable1.repaint();
+
+        // Debug: Verificar el modelo
+        System.out.println("Modelo actual - Filas: " + modelo.getRowCount());
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            System.out.println("Fila " + i + ": "
+                    + modelo.getValueAt(i, 0) + " | "
+                    + modelo.getValueAt(i, 1) + " | "
+                    + modelo.getValueAt(i, 2) + " | "
+                    + modelo.getValueAt(i, 3));
+        }
+    }
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
@@ -295,45 +409,48 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
     }
-    
-    public boolean validacionFechas(String fechaInicial, String fechaFinal){
-        if (!fechaInicial.trim().isEmpty()){
+
+    public boolean validacionFechas(String fechaInicial, String fechaFinal) {
+        if (!fechaInicial.trim().isEmpty()) {
             matcher = pattern.matcher(fechaInicial);
             boolean matchFound = matcher.find();
-            
-            if(!matchFound) {                
+
+            if (!matchFound) {
                 JOptionPane.showMessageDialog(this, "Por favor de insertar fecha valida (dd/mm/aaaa)", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;              
+                return false;
             }
             // se divide la fecha en partes en un arreglo
             String[] fechaInicialSplit = fechaInicial.split("/");
-            
+
             // y se hace una fecha normal
             fInicial = LocalDate.of(Integer.parseInt(fechaInicialSplit[2]), Integer.parseInt(fechaInicialSplit[1]), Integer.parseInt(fechaInicialSplit[0]));
-        } 
-        // en el caso de que este vacio el campo, el valor inicial
+        } // en el caso de que este vacio el campo, el valor inicial
         // es igual al valor minimo posible        
-        else fInicial = LocalDate.MIN;
-        
-        if (!fechaFinal.trim().isEmpty()){
+        else {
+            fInicial = LocalDate.MIN;
+        }
+
+        if (!fechaFinal.trim().isEmpty()) {
             matcher = pattern.matcher(fechaFinal);
             boolean matchFound = matcher.find();
-            
-            if(!matchFound) {                
+
+            if (!matchFound) {
                 JOptionPane.showMessageDialog(this, "Por favor de insertar fecha valida (dd/mm/aaaa)", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;              
+                return false;
             }
-            
+
             String[] fechaFinalSplit = fechaFinal.split("/");
             fFinal = LocalDate.of(Integer.parseInt(fechaFinalSplit[2]), Integer.parseInt(fechaFinalSplit[1]), Integer.parseInt(fechaFinalSplit[0]));
-        } else fInicial = LocalDate.MAX;
-        
+        } else {
+            fInicial = LocalDate.MAX;
+        }
+
         return true;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnComfirmar;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;

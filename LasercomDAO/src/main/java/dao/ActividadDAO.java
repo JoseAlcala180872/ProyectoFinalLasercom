@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -158,15 +159,15 @@ public class ActividadDAO {
         try {
             em.getTransaction().begin();
             Actividad actividad = em.find(Actividad.class, idActividad);
-            
+
             if (actividad == null) {
                 throw new DAOException("La actividad no existe");
             }
-            
+
             if (actividad.getEstado() != EstadoActividad.TERMINADO) {
                 throw new DAOException("Solo se puede registrar monto en actividades terminadas");
             }
-            
+
             actividad.setMonto(monto);
             em.getTransaction().commit();
         } catch (DAOException e) {
@@ -175,6 +176,43 @@ public class ActividadDAO {
         } catch (Exception e) {
             rollbackTransaction();
             throw new DAOException("Error al registrar monto de actividad", e);
+        }
+    }
+
+    /**
+     * Metodo para obtener actividades entre fechas para estadisticas
+     * (Documentar mas adelante).
+     *
+     * @param fInicial
+     * @param fFinal
+     * @return
+     * @throws DAOException
+     */
+    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws DAOException {
+        try {
+            // Debug: Verificar parámetros
+            System.out.println("Fechas recibidas - Inicial: " + fInicial + ", Final: " + fFinal);
+
+            if (fInicial == null || fFinal == null) {
+                throw new DAOException("Ambas fechas son requeridas");
+            }
+
+            // Usando CAST (para MySQL)
+            String jpql = "SELECT a FROM Actividad a "
+                    + "LEFT JOIN FETCH a.cliente c "
+                    + "WHERE CAST(a.fechaRealTermino AS date) BETWEEN :fInicial AND :fFinal "
+                    + "ORDER BY a.fechaRealTermino";
+            TypedQuery<Actividad> query = em.createQuery(jpql, Actividad.class);
+            query.setParameter("fInicial", fInicial);
+            query.setParameter("fFinal", fFinal);
+            List<Actividad> resultados = query.getResultList();
+            System.out.println("Número de actividades encontradas: " + resultados.size()); // Debug
+            return resultados;
+
+        } catch (Exception e) {
+            System.err.println("Error en DAO al buscar actividades: " + e.getMessage());
+            e.printStackTrace();
+            throw new DAOException("Error técnico al buscar actividades: " + e.getMessage(), e);
         }
     }
 
@@ -194,25 +232,6 @@ public class ActividadDAO {
     public void cerrar() {
         if (em != null && em.isOpen()) {
             em.close();
-        }
-    }
-    
-    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws DAOException {
-        String fi = fInicial.getDayOfMonth()+"-"+fInicial.getMonth()+"-"+fInicial.getYear();
-        String ff = fFinal.getDayOfMonth()+"-"+fFinal.getMonth()+"-"+fFinal.getYear();
-        
-        try {
-            TypedQuery<Actividad> query = em.createQuery(
-                    "SELECT a FROM Cliente a WHERE a.fechaRealTermino BETWEEN :fInicial AND :fFinal", Actividad.class);
-            query.setParameter("fInicial", "%" + fi + "%");
-            query.setParameter("fFinal", "%" + ff + "%");
-            return query.getResultList();
-        } catch (DAOException e) {
-            throw new DAOException("Error al buscar por actividades entre fechas", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 }
