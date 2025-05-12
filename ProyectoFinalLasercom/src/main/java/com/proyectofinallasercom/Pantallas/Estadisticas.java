@@ -17,6 +17,15 @@ import java.time.format.DateTimeParseException;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Estadisticas extends javax.swing.JFrame {
 
@@ -361,15 +370,150 @@ public class Estadisticas extends javax.swing.JFrame {
     }
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
+        new Menu().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtFechaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicialActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaInicialActionPerformed
-
+     /**
+     * Método para exportar los datos de la tabla a un archivo PDF
+     * @param filePath Ruta del archivo PDF a generar
+     * @throws DocumentException
+     * @throws IOException 
+     */
+    private void exportarAPDF(String filePath) throws DocumentException, IOException {
+        // Crear el documento
+        Document document = new Document(PageSize.A4.rotate()); // Horizontal para mejor visualización de la tabla
+        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+        
+        document.open();
+        
+        // Configurar fuentes
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
+        Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+        Font cellFont = new Font(Font.FontFamily.HELVETICA, 10);
+        Font totalFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        
+        // Agregar título
+        Paragraph title = new Paragraph("Reporte de Actividades", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        title.setSpacingAfter(20f);
+        document.add(title);
+        
+        // Agregar período del reporte
+        Paragraph periodo = new Paragraph(
+            "Período: " + txtFechaInicial.getText() + " al " + txtFechaFinal.getText(), 
+            new Font(Font.FontFamily.HELVETICA, 12)
+        );
+        periodo.setAlignment(Element.ALIGN_CENTER);
+        periodo.setSpacingAfter(15f);
+        document.add(periodo);
+        
+        // Crear tabla con las mismas columnas que la tabla Swing
+        PdfPTable table = new PdfPTable(4);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+        
+        // Configurar anchos de columnas (relativos)
+        float[] columnWidths = {3f, 2f, 3f, 2f};
+        table.setWidths(columnWidths);
+        
+        // Agregar encabezados de tabla
+        addPdfTableHeader(table, "Título", headerFont);
+        addPdfTableHeader(table, "Fecha Terminada", headerFont);
+        addPdfTableHeader(table, "Cliente", headerFont);
+        addPdfTableHeader(table, "Monto", headerFont);
+        
+        // Agregar datos de la tabla
+        BigDecimal montoTotal = BigDecimal.ZERO;
+        
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            String titulo = (String) modelo.getValueAt(i, 0);
+            String fecha = (String) modelo.getValueAt(i, 1);
+            String cliente = (String) modelo.getValueAt(i, 2);
+            BigDecimal monto = (BigDecimal) modelo.getValueAt(i, 3);
+            
+            addPdfTableCell(table, titulo, cellFont);
+            addPdfTableCell(table, fecha, cellFont);
+            addPdfTableCell(table, cliente, cellFont);
+            addPdfTableCell(table, monto.toString(), cellFont);
+            
+            montoTotal = montoTotal.add(monto);
+        }
+        
+        document.add(table);
+        
+        // Agregar total general
+        Paragraph total = new Paragraph(
+            "Total en período: " + txtMonto.getText(), 
+            totalFont
+        );
+        total.setAlignment(Element.ALIGN_RIGHT);
+        total.setSpacingBefore(10f);
+        document.add(total);
+        
+        // Cerrar el documento
+        document.close();
+    }
+    
+    /**
+     * Método auxiliar para agregar celdas de encabezado a la tabla PDF
+     */
+    private void addPdfTableHeader(PdfPTable table, String text, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(text, font));
+        cell.setBackgroundColor(BaseColor.BLUE);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setPadding(5);
+        table.addCell(cell);
+    }
+    
+    /**
+     * Método auxiliar para agregar celdas normales a la tabla PDF
+     */
+    private void addPdfTableCell(PdfPTable table, String text, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(text, font));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setPadding(5);
+        table.addCell(cell);
+    }
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // TODO add your handling code here:
+        // Verificar si hay datos en la tabla
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay datos para exportar", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Crear un selector de archivos
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+        fileChooser.setSelectedFile(new File("reporte_actividades.pdf"));
+        
+        int userSelection = fileChooser.showSaveDialog(this);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            
+            // Asegurarse de que la extensión sea .pdf
+            if (!filePath.toLowerCase().endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            
+            try {
+                exportarAPDF(filePath);
+                JOptionPane.showMessageDialog(this, "Reporte exportado exitosamente a:\n" + filePath, 
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al exportar el PDF: " + e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_btnExportarActionPerformed
 
     /**
