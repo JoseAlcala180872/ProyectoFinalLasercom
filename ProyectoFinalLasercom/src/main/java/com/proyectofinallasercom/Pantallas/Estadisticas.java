@@ -24,9 +24,14 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.ClienteDAO;
 import dominio.Cliente;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -63,6 +68,15 @@ public class Estadisticas extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);  // Monto
 
         cargarClientes();
+        try {
+            File f = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/fondo.png");
+
+            BufferedImage image = ImageIO.read(f);
+
+            lblFondo.setIcon(new ImageIcon(image));
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,29 +88,37 @@ public class Estadisticas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        pnlFondo = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+        lblFechaInicial = new javax.swing.JLabel();
         txtFechaInicial = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtFechaFinal = new javax.swing.JTextField();
         btnConfirmar = new javax.swing.JButton();
+        lblFechaFinal = new javax.swing.JLabel();
+        txtFechaFinal = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
+        lblCliente = new javax.swing.JLabel();
+        cboxCliente = new javax.swing.JComboBox<>();
+        lblMonto = new javax.swing.JLabel();
         txtMonto = new javax.swing.JTextField();
         btnSalir = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        comboClientes = new javax.swing.JComboBox<>();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Estadisticas");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel1.setText("Estadisticas");
+        pnlFondo.setOpaque(false);
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        jLabel2.setText("Fecha inicial");
+        lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Estadisticas");
 
+        lblFechaInicial.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblFechaInicial.setText("Fecha inicial");
+
+        txtFechaInicial.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtFechaInicial.setText("05/05/2025");
         txtFechaInicial.setToolTipText("dd/mm/aaaa");
         txtFechaInicial.addActionListener(new java.awt.event.ActionListener() {
@@ -104,12 +126,6 @@ public class Estadisticas extends javax.swing.JFrame {
                 txtFechaInicialActionPerformed(evt);
             }
         });
-
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        jLabel3.setText("Fecha Final");
-
-        txtFechaFinal.setText("10/05/2025");
-        txtFechaFinal.setToolTipText("dd/mm/aaaa");
 
         btnConfirmar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnConfirmar.setText("Confirmar");
@@ -119,6 +135,14 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
 
+        lblFechaFinal.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblFechaFinal.setText("Fecha Final");
+
+        txtFechaFinal.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        txtFechaFinal.setText("10/05/2025");
+        txtFechaFinal.setToolTipText("dd/mm/aaaa");
+
+        jTable1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -132,9 +156,19 @@ public class Estadisticas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel4.setText("Monto en periodo:");
+        lblCliente.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        lblCliente.setText("Cliente:");
+
+        cboxCliente.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cboxCliente.setMaximumRowCount(10);
+        cboxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxCliente.setToolTipText("Seleccione un cliente para filtrar (opcional)");
+
+        lblMonto.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        lblMonto.setText("Monto en periodo:");
 
         txtMonto.setEditable(false);
+        txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         btnSalir.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnSalir.setText("Salir");
@@ -152,85 +186,121 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Cliente:");
-
-        comboClientes.setMaximumRowCount(10);
-        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboClientes.setToolTipText("Seleccione un cliente para filtrar (opcional)");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
+        pnlFondo.setLayout(pnlFondoLayout);
+        pnlFondoLayout.setHorizontalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(btnSalir)
+                        .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFondoLayout.createSequentialGroup()
+                        .addComponent(cboxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExportar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtFechaInicial)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addComponent(btnConfirmar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(63, 63, 63)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
+                        .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFondoLayout.createSequentialGroup()
+                        .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(lblFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(205, 205, 205))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnConfirmar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
-                    .addComponent(btnExportar))
-                .addGap(24, 24, 24))
+        pnlFondoLayout.setVerticalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(lblTitulo)
+                .addGap(32, 32, 32)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(pnlFondoLayout.createSequentialGroup()
+                            .addComponent(lblFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
+                        .addComponent(lblFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 750));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 750));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        // Verificar si hay datos en la tabla
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay datos para exportar",
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Crear un selector de archivos
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+        fileChooser.setSelectedFile(new File("reporte_actividades.pdf"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Asegurarse de que la extensión sea .pdf
+            if (!filePath.toLowerCase().endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+
+            try {
+                exportarAPDF(filePath);
+                JOptionPane.showMessageDialog(this, "Reporte exportado exitosamente a:\n" + filePath,
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al exportar el PDF: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        new Menu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
@@ -243,57 +313,61 @@ public class Estadisticas extends javax.swing.JFrame {
         // o le avisamos al usuario que debe llenar una fecha
         // ustedes deciden.
         try {
-//            // Obtener fechas de los campos
-//            String strFechaInicial = txtFechaInicial.getText().trim();
-//            String strFechaFinal = txtFechaFinal.getText().trim();
-//
-//            // Validar que no estén vacías
-//            if (strFechaInicial.isEmpty() || strFechaFinal.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Debe especificar ambas fechas",
-//                        "Error", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
+            //            // Obtener fechas de los campos
+            //            String strFechaInicial = txtFechaInicial.getText().trim();
+            //            String strFechaFinal = txtFechaFinal.getText().trim();
+            //
+            //            // Validar que no estén vacías
+            //            if (strFechaInicial.isEmpty() || strFechaFinal.isEmpty()) {
+                //                JOptionPane.showMessageDialog(this, "Debe especificar ambas fechas",
+                    //                        "Error", JOptionPane.ERROR_MESSAGE);
+                //                return;
+                //            }
 
             // Convertir a LocalDate
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//            LocalDate fechaInicial = LocalDate.parse(strFechaInicial, formatter);
-//            LocalDate fechaFinal = LocalDate.parse(strFechaFinal, formatter);
+            //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            //            LocalDate fechaInicial = LocalDate.parse(strFechaInicial, formatter);
+            //            LocalDate fechaFinal = LocalDate.parse(strFechaFinal, formatter);
             if (!validacionFechas(txtFechaInicial.getText(), txtFechaFinal.getText())) {
                 return;
             }
-            
+
             // Obtener cliente seleccionado (Filtro opcional, no se casen con el
-            Cliente clienteFiltro = null;
-            if (comboClientes.getSelectedIndex() > 1) { // No es opcion vacia
-                String nombreCliente = comboClientes.getSelectedItem().toString();
-                clienteFiltro = listaClientes.stream()
-                        .filter(c -> c.getNombre().equals(nombreCliente))
-                        .findFirst()
-                        .orElse(null);
-            }
-            
-            // Obtener actividades
-            List<Actividad> actividades = actividadBO.obtenerActividadesEntreFechas(
+                Cliente clienteFiltro = null;
+                if (cboxCliente.getSelectedIndex() > 1) { // No es opcion vacia
+                    String nombreCliente = cboxCliente.getSelectedItem().toString();
+                    clienteFiltro = listaClientes.stream()
+                    .filter(c -> c.getNombre().equals(nombreCliente))
+                    .findFirst()
+                    .orElse(null);
+                }
+
+                // Obtener actividades
+                List<Actividad> actividades = actividadBO.obtenerActividadesEntreFechas(
                     parseFecha(txtFechaInicial.getText()),
                     parseFecha(txtFechaFinal.getText()),
                     clienteFiltro
-            );
+                );
 
-            // Mostrar en tabla
-            mostrarActividadesEnTabla(actividades);
+                // Mostrar en tabla
+                mostrarActividadesEnTabla(actividades);
 
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy",
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BOException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(),
+            } catch (BOException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void txtFechaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaInicialActionPerformed
 
     /**
      * Metodo para parsear fechas de String a LocalDate.
@@ -405,30 +479,21 @@ public class Estadisticas extends javax.swing.JFrame {
     private void cargarClientes() {
         try {
             listaClientes = clienteBO.listarTodosLosClientes();
-            comboClientes.removeAllItems();
-            comboClientes.addItem(""); // Opcion vacia para no filtrar
-            comboClientes.addItem("-- Todos los clientes --");
+            cboxCliente.removeAllItems();
+            cboxCliente.addItem(""); // Opcion vacia para no filtrar
+            cboxCliente.addItem("-- Todos los clientes --");
 
             // Ordenar alfabeticamente
             listaClientes.sort((c1, c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
             
             for (Cliente cliente : listaClientes) {
-                comboClientes.addItem(cliente.getNombre());
+                cboxCliente.addItem(cliente.getNombre());
             }
         } catch (BOException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        new Menu().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
-    private void txtFechaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaInicialActionPerformed
     /**
      * Método para exportar los datos de la tabla a un archivo PDF
      *
@@ -532,43 +597,6 @@ public class Estadisticas extends javax.swing.JFrame {
         cell.setPadding(5);
         table.addCell(cell);
     }
-    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // Verificar si hay datos en la tabla
-        if (modelo.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No hay datos para exportar",
-                    "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Crear un selector de archivos
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar PDF");
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
-        fileChooser.setSelectedFile(new File("reporte_actividades.pdf"));
-
-        int userSelection = fileChooser.showSaveDialog(this);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            String filePath = fileToSave.getAbsolutePath();
-
-            // Asegurarse de que la extensión sea .pdf
-            if (!filePath.toLowerCase().endsWith(".pdf")) {
-                filePath += ".pdf";
-            }
-
-            try {
-                exportarAPDF(filePath);
-                JOptionPane.showMessageDialog(this, "Reporte exportado exitosamente a:\n" + filePath,
-                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al exportar el PDF: " + e.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            }
-        }
-    }//GEN-LAST:event_btnExportarActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -650,14 +678,16 @@ public class Estadisticas extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> comboClientes;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JComboBox<String> cboxCliente;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblFechaFinal;
+    private javax.swing.JLabel lblFechaInicial;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblMonto;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtFechaFinal;
     private javax.swing.JTextField txtFechaInicial;
     private javax.swing.JTextField txtMonto;

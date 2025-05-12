@@ -9,7 +9,14 @@ import dao.ActividadDAO;
 import dominio.Actividad;
 import excepciones.BOException;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,7 +32,15 @@ public class ActividadTerminada extends javax.swing.JFrame {
         this.actividad = actividad;
         this.actividadBO = new ActividadBO(new ActividadDAO());
         initComponents();
-        setLocationRelativeTo(null);
+        try {
+            File f = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/fondo.png");
+
+            BufferedImage image = ImageIO.read(f);
+
+            lblFondo.setIcon(new ImageIcon(image));
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -37,25 +52,20 @@ public class ActividadTerminada extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblTitulo = new javax.swing.JLabel();
-        lblDescripcion = new javax.swing.JLabel();
-        txtCantidad = new javax.swing.JTextField();
+        pnlFondo = new javax.swing.JPanel();
         btnAceptar = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
+        lblDescripcion = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Actividad Terminada");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Actividad Terminada");
-
-        lblDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        lblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDescripcion.setText("Anada los ingresos generados por esta actividad");
-
-        txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        pnlFondo.setOpaque(false);
 
         btnAceptar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnAceptar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\Tips.png")); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,26 +73,36 @@ public class ActividadTerminada extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Actividad Terminada");
+
+        txtCantidad.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+
+        lblDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        lblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDescripcion.setText("Anada los ingresos generados por esta actividad");
+
+        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
+        pnlFondo.setLayout(pnlFondoLayout);
+        pnlFondoLayout.setHorizontalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
                         .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFondoLayout.createSequentialGroup()
+                        .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                             .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCantidad))
                         .addGap(32, 32, 32))))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        pnlFondoLayout.setVerticalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
@@ -93,6 +113,9 @@ public class ActividadTerminada extends javax.swing.JFrame {
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -181,7 +204,9 @@ public class ActividadTerminada extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtCantidad;
     // End of variables declaration//GEN-END:variables
 

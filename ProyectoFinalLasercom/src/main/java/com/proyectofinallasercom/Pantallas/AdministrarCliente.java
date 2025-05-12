@@ -4,6 +4,14 @@
  */
 package com.proyectofinallasercom.Pantallas;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author montoya
@@ -15,6 +23,24 @@ public class AdministrarCliente extends javax.swing.JFrame {
      */
     public AdministrarCliente() {
         initComponents();
+        try {
+            File fondo = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/fondo.png");
+            File registrar = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/toolbar/business_application_addmale_useradd_insert_add_user_client_2312.png");
+            File editar = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/toolbar/businessapplication_edit_male_user_thepencil_theclient_negocio_2321.png");
+            File listado = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/toolbar/4288574andcontractdocumentfilesfolderspaperuser-115783_115730.png");
+
+            BufferedImage imgFondo = ImageIO.read(fondo);
+            BufferedImage imgRegistrar = ImageIO.read(registrar);
+            BufferedImage imgEditar = ImageIO.read(editar);
+            BufferedImage imgListado = ImageIO.read(listado);
+
+            lblFondo.setIcon(new ImageIcon(imgFondo));
+            btnRegistrarCliente.setIcon(new ImageIcon(imgRegistrar));
+            btnEditarCliente.setIcon(new ImageIcon(imgEditar));
+            btnListadoClientes.setIcon(new ImageIcon(imgListado));
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -26,20 +52,25 @@ public class AdministrarCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlFondo = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
         btnRegistrarCliente = new javax.swing.JButton();
         btnEditarCliente = new javax.swing.JButton();
         btnListadoClientes = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Administrar Cliente");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlFondo.setOpaque(false);
 
         lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Administrar Cliente");
 
         btnRegistrarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnRegistrarCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\business_application_addmale_useradd_insert_add_user_client_2312.png")); // NOI18N
         btnRegistrarCliente.setText("Registrar Cliente");
         btnRegistrarCliente.setToolTipText("");
         btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +80,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         });
 
         btnEditarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnEditarCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\businessapplication_edit_male_user_thepencil_theclient_negocio_2321.png")); // NOI18N
         btnEditarCliente.setText("Editar Cliente");
         btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,11 +88,14 @@ public class AdministrarCliente extends javax.swing.JFrame {
         });
 
         btnListadoClientes.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnListadoClientes.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\4288574andcontractdocumentfilesfolderspaperuser-115783_115730.png")); // NOI18N
         btnListadoClientes.setText("Listado de Clientes");
+        btnListadoClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListadoClientesActionPerformed(evt);
+            }
+        });
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yeisi\\Documents\\GitHub\\ProyectoFinalLasercom\\resources\\toolbar\\folder_beige_parent.png")); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,30 +103,30 @@ public class AdministrarCliente extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
+        pnlFondo.setLayout(pnlFondoLayout);
+        pnlFondoLayout.setHorizontalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
                         .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(487, 487, 487))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(pnlFondoLayout.createSequentialGroup()
                         .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(32, 32, 32))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFondoLayout.createSequentialGroup()
                 .addContainerGap(225, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnListadoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(225, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        pnlFondoLayout.setVerticalGroup(
+            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFondoLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
@@ -106,6 +139,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        lblFondo.setText("jLabel1");
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -125,6 +163,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         new EditarCliente().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnEditarClienteActionPerformed
+
+    private void btnListadoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListadoClientesActionPerformed
+        new ListadoClientes().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnListadoClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,6 +209,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnListadoClientes;
     private javax.swing.JButton btnRegistrarCliente;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlFondo;
     // End of variables declaration//GEN-END:variables
 }

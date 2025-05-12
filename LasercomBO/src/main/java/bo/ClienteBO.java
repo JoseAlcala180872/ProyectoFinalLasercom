@@ -55,7 +55,12 @@ public class ClienteBO {
         if (cliente == null || cliente.getIdCliente() == null) {
             throw new BOException("El cliente o su ID son nulos");
         }
-        
+
+        List<String> errores = cliente.getMensajesError();
+        if (!errores.isEmpty()) {
+            throw new BOException("Errores de validacion: " + String.join(", ", errores));
+        }
+
         try {
             clienteDAO.actualizarCliente(cliente);
         } catch (DAOException e) {
