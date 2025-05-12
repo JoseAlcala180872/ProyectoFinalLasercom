@@ -6,6 +6,7 @@ package bo;
 
 import dao.ActividadDAO;
 import dominio.Actividad;
+import dominio.Cliente;
 import dominio.EstadoActividad;
 import excepciones.BOException;
 import excepciones.DAOException;
@@ -113,7 +114,7 @@ public class ActividadBO {
         }
     }
 
-    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws BOException {
+    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal, Cliente clienteFiltro) throws BOException {
         try {
             // Validar fechas
             if (fInicial == null || fFinal == null) {
@@ -123,7 +124,7 @@ public class ActividadBO {
                 throw new BOException("La fecha inicial no puede ser posterior a la final");
             }
 
-            return actividadDAO.obtenerActividadesEntreFechas(fInicial, fFinal);
+            return actividadDAO.obtenerActividadesEntreFechas(fInicial, fFinal, clienteFiltro);
         } catch (DAOException e) {
             System.err.println("Error en BO: " + e.getMessage());
             throw new BOException("[BO] Error al buscar Actividades por fecha: " + e.getMessage(), e);

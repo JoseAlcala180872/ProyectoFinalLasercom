@@ -6,13 +6,13 @@ package dao;
 
 import conexion.Conexion;
 import dominio.Actividad;
+import dominio.Cliente;
 import dominio.EstadoActividad;
 import excepciones.DAOException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -188,7 +188,7 @@ public class ActividadDAO {
      * @return
      * @throws DAOException
      */
-    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal) throws DAOException {
+    public List<Actividad> obtenerActividadesEntreFechas(LocalDate fInicial, LocalDate fFinal, Cliente clienteFiltro) throws DAOException {
         try {
             // Debug: Verificar parámetros
             System.out.println("Fechas recibidas - Inicial: " + fInicial + ", Final: " + fFinal);
@@ -200,16 +200,35 @@ public class ActividadDAO {
             // Usando CAST (para MySQL)
             String jpql = "SELECT a FROM Actividad a "
                     + "LEFT JOIN FETCH a.cliente c "
-                    + "WHERE CAST(a.fechaRealTermino AS date) BETWEEN :fInicial AND :fFinal "
-                    + "ORDER BY a.fechaRealTermino";
+                    + "WHERE CAST(a.fechaRealTermino AS date) BETWEEN :fInicial AND :fFinal ";
+            
+            // Filtro por si se selecciona un cliente para las estadisticas.
+            if (clienteFiltro != null) {
+                jpql += "AND a.cliente = :cliente ";
+            }
+            
+            jpql += "ORDER BY a.fechaRealTermino";
+            
             TypedQuery<Actividad> query = em.createQuery(jpql, Actividad.class);
             query.setParameter("fInicial", fInicial);
             query.setParameter("fFinal", fFinal);
+            
+            if (clienteFiltro != null) {
+                query.setParameter("cliente", clienteFiltro);
+            }
+            
             List<Actividad> resultados = query.getResultList();
-            System.out.println("Número de actividades encontradas: " + resultados.size()); // Debug
+            System.out.println(String.format(
+                    "Actividades encontradas - Inicio: %s, Fin: %s, Cliente: %s -> Resultados: %d",
+                    fInicial,
+                    fFinal,
+                    clienteFiltro != null ? clienteFiltro.getNombre() : "Todos",
+                    resultados.size()
+            )); // Debug
+            
             return resultados;
 
-        } catch (Exception e) {
+        } catch (DAOException e) {
             System.err.println("Error en DAO al buscar actividades: " + e.getMessage());
             e.printStackTrace();
             throw new DAOException("Error técnico al buscar actividades: " + e.getMessage(), e);

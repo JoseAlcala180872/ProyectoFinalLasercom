@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import dominio.Actividad;
 import java.util.List;
 import bo.ActividadBO;
+import bo.ClienteBO;
 import dao.ActividadDAO;
 import excepciones.BOException;
 import java.awt.Component;
@@ -21,6 +22,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.ClienteDAO;
+import dominio.Cliente;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,23 +31,22 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Estadisticas extends javax.swing.JFrame {
-
     LocalDate fInicial = LocalDate.MIN;
     LocalDate fFinal = LocalDate.MAX;
-
     DefaultTableModel modelo = new DefaultTableModel();
-
-    List<Actividad> lista;
+    private List<Actividad> listaActividades;
+    private List<Cliente> listaClientes;
     private final ActividadBO actividadBO;
-
+    private final ClienteBO clienteBO;
     //regex
     Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$");
     Matcher matcher;
 
     public Estadisticas() {
         actividadBO = new ActividadBO(new ActividadDAO());
+        clienteBO = new ClienteBO(new ClienteDAO());
         initComponents();
-        
+
         // Inicializar el modelo de tabla
         modelo = new DefaultTableModel(
                 new Object[][]{},
@@ -59,7 +61,8 @@ public class Estadisticas extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(100); // Fecha
         jTable1.getColumnModel().getColumn(2).setPreferredWidth(120); // Cliente
         jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);  // Monto
-        
+
+        cargarClientes();
     }
 
     /**
@@ -83,6 +86,8 @@ public class Estadisticas extends javax.swing.JFrame {
         txtMonto = new javax.swing.JTextField();
         btnSalir = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        comboClientes = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,39 +152,48 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Cliente:");
+
+        comboClientes.setMaximumRowCount(10);
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboClientes.setToolTipText("Seleccione un cliente para filtrar (opcional)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSalir)
-                        .addGap(400, 400, 400)
-                        .addComponent(btnExportar))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtFechaInicial)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(70, 70, 70)
-                                    .addComponent(btnConfirmar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1)
-                                    .addGap(63, 63, 63)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3)
-                                .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtFechaInicial)
+                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addComponent(btnConfirmar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(63, 63, 63)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -204,7 +218,9 @@ public class Estadisticas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
@@ -227,24 +243,41 @@ public class Estadisticas extends javax.swing.JFrame {
         // o le avisamos al usuario que debe llenar una fecha
         // ustedes deciden.
         try {
-            // Obtener fechas de los campos
-            String strFechaInicial = txtFechaInicial.getText().trim();
-            String strFechaFinal = txtFechaFinal.getText().trim();
-
-            // Validar que no estén vacías
-            if (strFechaInicial.isEmpty() || strFechaFinal.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe especificar ambas fechas",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+//            // Obtener fechas de los campos
+//            String strFechaInicial = txtFechaInicial.getText().trim();
+//            String strFechaFinal = txtFechaFinal.getText().trim();
+//
+//            // Validar que no estén vacías
+//            if (strFechaInicial.isEmpty() || strFechaFinal.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Debe especificar ambas fechas",
+//                        "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
 
             // Convertir a LocalDate
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate fechaInicial = LocalDate.parse(strFechaInicial, formatter);
-            LocalDate fechaFinal = LocalDate.parse(strFechaFinal, formatter);
-
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            LocalDate fechaInicial = LocalDate.parse(strFechaInicial, formatter);
+//            LocalDate fechaFinal = LocalDate.parse(strFechaFinal, formatter);
+            if (!validacionFechas(txtFechaInicial.getText(), txtFechaFinal.getText())) {
+                return;
+            }
+            
+            // Obtener cliente seleccionado (Filtro opcional, no se casen con el
+            Cliente clienteFiltro = null;
+            if (comboClientes.getSelectedIndex() > 1) { // No es opcion vacia
+                String nombreCliente = comboClientes.getSelectedItem().toString();
+                clienteFiltro = listaClientes.stream()
+                        .filter(c -> c.getNombre().equals(nombreCliente))
+                        .findFirst()
+                        .orElse(null);
+            }
+            
             // Obtener actividades
-            List<Actividad> actividades = actividadBO.obtenerActividadesEntreFechas(fechaInicial, fechaFinal);
+            List<Actividad> actividades = actividadBO.obtenerActividadesEntreFechas(
+                    parseFecha(txtFechaInicial.getText()),
+                    parseFecha(txtFechaFinal.getText()),
+                    clienteFiltro
+            );
 
             // Mostrar en tabla
             mostrarActividadesEnTabla(actividades);
@@ -369,6 +402,25 @@ public class Estadisticas extends javax.swing.JFrame {
         }
     }
 
+    private void cargarClientes() {
+        try {
+            listaClientes = clienteBO.listarTodosLosClientes();
+            comboClientes.removeAllItems();
+            comboClientes.addItem(""); // Opcion vacia para no filtrar
+            comboClientes.addItem("-- Todos los clientes --");
+
+            // Ordenar alfabeticamente
+            listaClientes.sort((c1, c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
+            
+            for (Cliente cliente : listaClientes) {
+                comboClientes.addItem(cliente.getNombre());
+            }
+        } catch (BOException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         new Menu().setVisible(true);
         dispose();
@@ -377,88 +429,89 @@ public class Estadisticas extends javax.swing.JFrame {
     private void txtFechaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicialActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaInicialActionPerformed
-     /**
+    /**
      * Método para exportar los datos de la tabla a un archivo PDF
+     *
      * @param filePath Ruta del archivo PDF a generar
      * @throws DocumentException
-     * @throws IOException 
+     * @throws IOException
      */
     private void exportarAPDF(String filePath) throws DocumentException, IOException {
         // Crear el documento
         Document document = new Document(PageSize.A4.rotate()); // Horizontal para mejor visualización de la tabla
         PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        
+
         document.open();
-        
+
         // Configurar fuentes
         Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
         Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
         Font cellFont = new Font(Font.FontFamily.HELVETICA, 10);
         Font totalFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-        
+
         // Agregar título
         Paragraph title = new Paragraph("Reporte de Actividades", titleFont);
         title.setAlignment(Element.ALIGN_CENTER);
         title.setSpacingAfter(20f);
         document.add(title);
-        
+
         // Agregar período del reporte
         Paragraph periodo = new Paragraph(
-            "Período: " + txtFechaInicial.getText() + " al " + txtFechaFinal.getText(), 
-            new Font(Font.FontFamily.HELVETICA, 12)
+                "Período: " + txtFechaInicial.getText() + " al " + txtFechaFinal.getText(),
+                new Font(Font.FontFamily.HELVETICA, 12)
         );
         periodo.setAlignment(Element.ALIGN_CENTER);
         periodo.setSpacingAfter(15f);
         document.add(periodo);
-        
+
         // Crear tabla con las mismas columnas que la tabla Swing
         PdfPTable table = new PdfPTable(4);
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
-        
+
         // Configurar anchos de columnas (relativos)
         float[] columnWidths = {3f, 2f, 3f, 2f};
         table.setWidths(columnWidths);
-        
+
         // Agregar encabezados de tabla
         addPdfTableHeader(table, "Título", headerFont);
         addPdfTableHeader(table, "Fecha Terminada", headerFont);
         addPdfTableHeader(table, "Cliente", headerFont);
         addPdfTableHeader(table, "Monto", headerFont);
-        
+
         // Agregar datos de la tabla
         BigDecimal montoTotal = BigDecimal.ZERO;
-        
+
         for (int i = 0; i < modelo.getRowCount(); i++) {
             String titulo = (String) modelo.getValueAt(i, 0);
             String fecha = (String) modelo.getValueAt(i, 1);
             String cliente = (String) modelo.getValueAt(i, 2);
             BigDecimal monto = (BigDecimal) modelo.getValueAt(i, 3);
-            
+
             addPdfTableCell(table, titulo, cellFont);
             addPdfTableCell(table, fecha, cellFont);
             addPdfTableCell(table, cliente, cellFont);
             addPdfTableCell(table, monto.toString(), cellFont);
-            
+
             montoTotal = montoTotal.add(monto);
         }
-        
+
         document.add(table);
-        
+
         // Agregar total general
         Paragraph total = new Paragraph(
-            "Total en período: " + txtMonto.getText(), 
-            totalFont
+                "Total en período: " + txtMonto.getText(),
+                totalFont
         );
         total.setAlignment(Element.ALIGN_RIGHT);
         total.setSpacingBefore(10f);
         document.add(total);
-        
+
         // Cerrar el documento
         document.close();
     }
-    
+
     /**
      * Método auxiliar para agregar celdas de encabezado a la tabla PDF
      */
@@ -469,7 +522,7 @@ public class Estadisticas extends javax.swing.JFrame {
         cell.setPadding(5);
         table.addCell(cell);
     }
-    
+
     /**
      * Método auxiliar para agregar celdas normales a la tabla PDF
      */
@@ -482,35 +535,35 @@ public class Estadisticas extends javax.swing.JFrame {
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         // Verificar si hay datos en la tabla
         if (modelo.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No hay datos para exportar", 
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No hay datos para exportar",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Crear un selector de archivos
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar PDF");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
         fileChooser.setSelectedFile(new File("reporte_actividades.pdf"));
-        
+
         int userSelection = fileChooser.showSaveDialog(this);
-        
+
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             String filePath = fileToSave.getAbsolutePath();
-            
+
             // Asegurarse de que la extensión sea .pdf
             if (!filePath.toLowerCase().endsWith(".pdf")) {
                 filePath += ".pdf";
             }
-            
+
             try {
                 exportarAPDF(filePath);
-                JOptionPane.showMessageDialog(this, "Reporte exportado exitosamente a:\n" + filePath, 
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Reporte exportado exitosamente a:\n" + filePath,
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al exportar el PDF: " + e.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al exportar el PDF: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
         }
@@ -586,7 +639,7 @@ public class Estadisticas extends javax.swing.JFrame {
             String[] fechaFinalSplit = fechaFinal.split("/");
             fFinal = LocalDate.of(Integer.parseInt(fechaFinalSplit[2]), Integer.parseInt(fechaFinalSplit[1]), Integer.parseInt(fechaFinalSplit[0]));
         } else {
-            fInicial = LocalDate.MAX;
+            fFinal = LocalDate.MAX;
         }
 
         return true;
@@ -597,10 +650,12 @@ public class Estadisticas extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> comboClientes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtFechaFinal;
