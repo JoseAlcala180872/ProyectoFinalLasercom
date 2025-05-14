@@ -207,7 +207,6 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new LoginForm().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

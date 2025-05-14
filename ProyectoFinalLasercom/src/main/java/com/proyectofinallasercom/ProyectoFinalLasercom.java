@@ -4,6 +4,8 @@
 
 package com.proyectofinallasercom;
 
+import com.proyectofinallasercom.Pantallas.LoginForm;
+
 /**
  *
  * @author montoya
@@ -11,6 +13,10 @@ package com.proyectofinallasercom;
 public class ProyectoFinalLasercom {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new LoginForm().setVisible(true);
+            }
+        });
     }
 }

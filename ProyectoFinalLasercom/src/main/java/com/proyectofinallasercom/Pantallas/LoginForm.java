@@ -159,11 +159,9 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
         new RegistrarUsuarioForm().setVisible(true);
-        dispose();
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new Menu().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
