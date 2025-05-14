@@ -199,7 +199,6 @@ public class RegistrarUsuarioForm extends javax.swing.JFrame {
         boolean registrado = usuarioBO.registrar(nombreUsuario, contrasena, email);
         if (registrado) {
             JOptionPane.showMessageDialog(this, "Registro exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            new LoginForm().setVisible(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar. Verifica que el usuario o correo no esten registrados.", "Error", JOptionPane.ERROR_MESSAGE);
