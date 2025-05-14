@@ -480,8 +480,8 @@ public class Estadisticas extends javax.swing.JFrame {
         try {
             listaClientes = clienteBO.listarTodosLosClientes();
             cboxCliente.removeAllItems();
-            // cboxCliente.addItem(""); 
-            cboxCliente.addItem("-- Todos los clientes --"); // Opcion vacia para no filtrar
+            cboxCliente.addItem(""); // Opcion vacia para no filtrar
+            cboxCliente.addItem("-- Todos los clientes --"); 
 
             // Ordenar alfabeticamente
             listaClientes.sort((c1, c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
