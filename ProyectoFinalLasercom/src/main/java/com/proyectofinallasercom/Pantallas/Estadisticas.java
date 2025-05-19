@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Estadisticas extends javax.swing.JFrame {
@@ -43,6 +44,7 @@ public class Estadisticas extends javax.swing.JFrame {
     private List<Cliente> listaClientes;
     private final ActividadBO actividadBO;
     private final ClienteBO clienteBO;
+    
     //regex
     Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$");
     Matcher matcher;
@@ -69,11 +71,16 @@ public class Estadisticas extends javax.swing.JFrame {
 
         cargarClientes();
         try {
-            File f = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/fondo.png");
+            File fondo = new File("src/main/java/com/proyectofinallasercom/Pantallas/resources/fondo.png");
 
-            BufferedImage image = ImageIO.read(f);
-
-            lblFondo.setIcon(new ImageIcon(image));
+            BufferedImage imgFondo = ImageIO.read(fondo);
+            
+            lblFondo = new javax.swing.JLabel();
+            lblFondo.setIcon(new ImageIcon(imgFondo));
+            
+            getContentPane().add(lblFondo);
+            lblFondo.setBounds(0, 0, getWidth(), getHeight());
+            getContentPane().setComponentZOrder(lblFondo, getContentPane().getComponentCount() - 1);
         } catch (IOException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -88,37 +95,29 @@ public class Estadisticas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlFondo = new javax.swing.JPanel();
-        lblTitulo = new javax.swing.JLabel();
-        lblFechaInicial = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         txtFechaInicial = new javax.swing.JTextField();
-        btnConfirmar = new javax.swing.JButton();
-        lblFechaFinal = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         txtFechaFinal = new javax.swing.JTextField();
+        btnConfirmar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        lblCliente = new javax.swing.JLabel();
-        cboxCliente = new javax.swing.JComboBox<>();
-        lblMonto = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtMonto = new javax.swing.JTextField();
         btnSalir = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
-        lblFondo = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        comboClientes = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Estadisticas");
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlFondo.setOpaque(false);
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setText("Reportes");
 
-        lblTitulo.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Estadisticas");
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        jLabel2.setText("Fecha inicial");
 
-        lblFechaInicial.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        lblFechaInicial.setText("Fecha inicial");
-
-        txtFechaInicial.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         txtFechaInicial.setText("05/05/2025");
         txtFechaInicial.setToolTipText("dd/mm/aaaa");
         txtFechaInicial.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +125,12 @@ public class Estadisticas extends javax.swing.JFrame {
                 txtFechaInicialActionPerformed(evt);
             }
         });
+
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        jLabel3.setText("Fecha Final");
+
+        txtFechaFinal.setText("10/05/2025");
+        txtFechaFinal.setToolTipText("dd/mm/aaaa");
 
         btnConfirmar.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnConfirmar.setText("Confirmar");
@@ -135,14 +140,6 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
 
-        lblFechaFinal.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        lblFechaFinal.setText("Fecha Final");
-
-        txtFechaFinal.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        txtFechaFinal.setText("10/05/2025");
-        txtFechaFinal.setToolTipText("dd/mm/aaaa");
-
-        jTable1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -156,19 +153,9 @@ public class Estadisticas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        lblCliente.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lblCliente.setText("Cliente:");
-
-        cboxCliente.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cboxCliente.setMaximumRowCount(10);
-        cboxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboxCliente.setToolTipText("Seleccione un cliente para filtrar (opcional)");
-
-        lblMonto.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lblMonto.setText("Monto en periodo:");
+        jLabel4.setText("Monto en periodo:");
 
         txtMonto.setEditable(false);
-        txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         btnSalir.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         btnSalir.setText("Salir");
@@ -186,75 +173,77 @@ public class Estadisticas extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
-        pnlFondo.setLayout(pnlFondoLayout);
-        pnlFondoLayout.setHorizontalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFondoLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(pnlFondoLayout.createSequentialGroup()
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFondoLayout.createSequentialGroup()
-                        .addComponent(cboxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlFondoLayout.createSequentialGroup()
-                        .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFondoLayout.createSequentialGroup()
-                        .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(lblFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(48, 48, 48)
-                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(205, 205, 205))
-        );
-        pnlFondoLayout.setVerticalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFondoLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(lblTitulo)
-                .addGap(32, 32, 32)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(pnlFondoLayout.createSequentialGroup()
-                            .addComponent(lblFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pnlFondoLayout.createSequentialGroup()
-                        .addComponent(lblFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
-        );
+        jLabel5.setText("Cliente:");
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 750));
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 750));
+        comboClientes.setMaximumRowCount(10);
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboClientes.setToolTipText("Seleccione un cliente para filtrar (opcional)");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtFechaInicial)
+                            .addComponent(jLabel2))
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnConfirmar)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnConfirmar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(btnExportar))
+                .addGap(24, 24, 24))
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -334,8 +323,8 @@ public class Estadisticas extends javax.swing.JFrame {
 
             // Obtener cliente seleccionado (Filtro opcional, no se casen con el
                 Cliente clienteFiltro = null;
-                if (cboxCliente.getSelectedIndex() > 1) { // No es opcion vacia
-                    String nombreCliente = cboxCliente.getSelectedItem().toString();
+                if (comboClientes.getSelectedIndex() > 1) { // No es opcion vacia
+                    String nombreCliente = comboClientes.getSelectedItem().toString();
                     clienteFiltro = listaClientes.stream()
                     .filter(c -> c.getNombre().equals(nombreCliente))
                     .findFirst()
@@ -479,15 +468,15 @@ public class Estadisticas extends javax.swing.JFrame {
     private void cargarClientes() {
         try {
             listaClientes = clienteBO.listarTodosLosClientes();
-            cboxCliente.removeAllItems();
-            cboxCliente.addItem(""); // Opcion vacia para no filtrar
-            cboxCliente.addItem("-- Todos los clientes --"); 
+            comboClientes.removeAllItems();
+            comboClientes.addItem(""); // Opcion vacia para no filtrar
+            comboClientes.addItem("-- Todos los clientes --"); 
 
             // Ordenar alfabeticamente
             listaClientes.sort((c1, c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
             
             for (Cliente cliente : listaClientes) {
-                cboxCliente.addItem(cliente.getNombre());
+                comboClientes.addItem(cliente.getNombre());
             }
         } catch (BOException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error",
@@ -673,21 +662,19 @@ public class Estadisticas extends javax.swing.JFrame {
         return true;
     }
 
-
+    private javax.swing.JLabel lblFondo;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> cboxCliente;
+    private javax.swing.JComboBox<String> comboClientes;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblCliente;
-    private javax.swing.JLabel lblFechaFinal;
-    private javax.swing.JLabel lblFechaInicial;
-    private javax.swing.JLabel lblFondo;
-    private javax.swing.JLabel lblMonto;
-    private javax.swing.JLabel lblTitulo;
-    private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtFechaFinal;
     private javax.swing.JTextField txtFechaInicial;
     private javax.swing.JTextField txtMonto;
