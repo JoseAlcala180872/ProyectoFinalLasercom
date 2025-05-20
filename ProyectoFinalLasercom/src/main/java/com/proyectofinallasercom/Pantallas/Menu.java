@@ -77,7 +77,7 @@ public class Menu extends javax.swing.JFrame {
         lblTitulo.setText("Menu");
 
         btnAdministrarActividad.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnAdministrarActividad.setText("<html>Administrar<br>Actividad</html>");
+        btnAdministrarActividad.setText("<html>Actividades</html>");
         btnAdministrarActividad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdministrarActividadActionPerformed(evt);
@@ -85,7 +85,7 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btnAdministrarCliente.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
-        btnAdministrarCliente.setText("<html>Administrar<br>Cliente</html>");
+        btnAdministrarCliente.setText("<html>Clientes</html>");
         btnAdministrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdministrarClienteActionPerformed(evt);
